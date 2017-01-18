@@ -1,5 +1,5 @@
 # Summary
 
 * [Introduction](README.md)
-* [Kotlin](kotlin.md)
+* [WalkThrough](kotlin.md)
 
