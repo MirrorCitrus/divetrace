@@ -4,8 +4,19 @@
 
 记录一些WalkThrough的简单内容和总结
 
+# Android体系ID
 
-# Kotlin
+---
+> 20170119
+
+* IMEI: Android手机的deviceId
+* 无限网卡地址
+* ANDROID_ID: 
+* 设备序列号（SN）： Build.SERIAL
+* IDFA:
+* OpenUDID:
+
+# Kotlin >
 
 ---
 
