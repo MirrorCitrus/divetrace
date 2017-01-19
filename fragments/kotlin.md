@@ -1,12 +1,8 @@
 # OverView
 
----
-
 记录一些WalkThrough的简单内容和总结
 
 # Android体系ID
-
----
 > 20170119
 
 * IMEI: Android手机的deviceId
@@ -17,8 +13,6 @@
 * OpenUDID:
 
 # Kotlin >
-
----
 
 > 20170118
 
