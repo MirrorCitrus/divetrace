@@ -96,8 +96,8 @@ static class MyResponseConverterFactory extends Converter.Factory {
 # 进阶使用
 
 # 参考
-- [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful)
-- [深入浅出 Retrofit](http://bugly.qq.com/bbs/forum.php?mod=viewthread&tid=1117)
-- [Github官网](https://github.com/square/retrofit)
-- [Website](http://square.github.io/retrofit/)
-- [Retrofit教程系列](https://futurestud.io/tutorials/retrofit-getting-started-and-android-client)
+- [x] [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful)
+- [x] [深入浅出 Retrofit](https://mp.weixin.qq.com/s?__biz=MzA3NTYzODYzMg==&mid=2653577186&idx=1&sn=1a5f6369faeb22b4b68ea39f25020d28&scene=0&key=f5c31ae61525f82eff1e94d54c4abd1c47958e9f7fe5751f2d201958841a354f0423e4ce98cb895058808f330921bde6&ascene=0&uin=MTYzMjY2MTE1&devicetype=iMac+MacBookPro10%2C1+OSX+OSX+10.11.4+build(15E65)&version=11020201&pass_ticket=rsJxex9Bn1eN7iJgW6FUI2KG3V9O6e3TH42j1U%2Fy5SU%3D)
+- [x] [Github官网](https://github.com/square/retrofit)
+- [x] [Website](http://square.github.io/retrofit/)
+- [ ] [Retrofit教程系列](https://futurestud.io/tutorials/retrofit-getting-started-and-android-client)
