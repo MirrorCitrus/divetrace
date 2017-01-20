@@ -6,19 +6,19 @@
 > 20170119
 
 * IMEI: Android手机的deviceId
-* 无限网卡地址
+* 无线网卡地址
 * ANDROID_ID: 
 * 设备序列号（SN）： Build.SERIAL
 * IDFA:
 * OpenUDID:
 
-# Kotlin >
+# Kotlin 
 
 > 20170118
 
-### 概览
+##### 概览
 
-### 语言特性
+##### 语言特性
 
 * 和Java无缝对接
   * 集合框架全支持 + 扩展功能
@@ -34,7 +34,7 @@
   * 极简线程切换
   * （DSL方式）动态构建布局
 
-### 其他
+##### 其他
 
 anko库
 
