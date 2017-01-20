@@ -9,6 +9,7 @@ ListView采用了二级缓存机制，RecyclerView则采用四级缓存机制，
 
 ##### 参考
 - [Android ListView 与 RecyclerView 对比浅析--缓存机制](http://mp.weixin.qq.com/s?__biz=MzA3NTYzODYzMg==&mid=2653578065&idx=2&sn=25e64a8bb7b5934cf0ce2e49549a80d6&chksm=84b3b156b3c43840061c28869671da915a25cf3be54891f040a3532e1bb17f9d32e244b79e3f&scene=21#wechat_redirect)
+- [RecyclerView必知必会](http://mp.weixin.qq.com/s/CzrKotyupXbYY6EY2HP_dA)
 
 # Android体系ID (20170119)
 * IMEI: Android手机的deviceId，需要权限
