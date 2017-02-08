@@ -78,7 +78,12 @@ Transition框架实际上也是基于属性动画的，相当于是对Activity/F
 ### 窗口Move动画
 
 除了前面提到的几种动画之外，我们还经常发现窗口的大小变化之后会产生一个动画。这个动画自然还是在WMS添加的。具体的调用过程是这样的（注意入口是WMS.relayoutWindow）：
+WMS.performLayoutLockedInner(...)
+WMS.performLayoutAndPlaceSurfaceLockedInner(...)
+WMS.performLayoutAndPlaceSurfaceLockedLoop(...)
+WMS.performLayoutAndPlaceSurfaceLocked(...)
 
+相关代码片段:
 ```
 // WMS.java
 private final void performLayoutAndPlaceSurfacesLockedInner(boolean recoveringMemory) {
