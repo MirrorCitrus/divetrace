@@ -2,7 +2,7 @@
 
 记录一些WalkThrough的简单内容和总结
 # LeakCanary(20170209)
-
+LeakCanary.install()返回一个RefWatcher，用它监测某个对象时，会强制触发一次gc，再根据这个对象是否被回收判定是否有泄露。
 ##### 参考
 - [使用LeakCanary检测Android中的内存泄露](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0511/2861.html)
 - [LeakCanary 内存泄露监测原理研究](http://www.jianshu.com/p/5ee6b471970e)
