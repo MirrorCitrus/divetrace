@@ -1,7 +1,7 @@
 # divetrace
 
 * [Introduction](README.md)
-* [WalkThrough](fragments/kotlin.md)
+* [WalkThrough](fragments/enjoyread.md)
 * [Deposit](deposit/README.md)
 * [OpenSources](dive-open-source/ReadMe.md)
   * Retrofit
