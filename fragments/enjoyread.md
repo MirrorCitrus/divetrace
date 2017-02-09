@@ -1,6 +1,11 @@
 # OverView
 
 记录一些WalkThrough的简单内容和总结
+# LeakCanary(20170209)
+
+##### 参考
+- [使用LeakCanary检测Android中的内存泄露](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0511/2861.html)
+- [LeakCanary 内存泄露监测原理研究](http://www.jianshu.com/p/5ee6b471970e)
 
 # RecyclerView和ListView的缓存机制 (20170120)
 ListView采用了二级缓存机制，RecyclerView则采用四级缓存机制，其中有一级缓存是开放给外部自定义的，因此大大提高了可扩展性。撇开这一层开放的缓存，RecyclerView的缓存优势主要在于从二级变到三级后，多出了一级负责减少bindView的调用。
