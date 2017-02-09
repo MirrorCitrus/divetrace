@@ -3,6 +3,7 @@
 记录一些WalkThrough的简单内容和总结
 # LeakCanary(20170209)
 LeakCanary.install()返回一个RefWatcher，用它监测某个对象时，会强制触发一次gc，再根据这个对象是否被回收判定是否有泄露。至于如何判定是否被回收，则是利用了WeakReference的一个特性：它指向的对象被回收时，引用会暂时存放在构建WeakReference的一个Queue中，查询该Queue即可判定是否被回收。
+
 另一方面，LeakCanary.install(Application)方法默认监听所有Activity的泄露，原因是Application类中提供了registerActivityLifecycleCallbacks方法。
 ##### 参考
 - [使用LeakCanary检测Android中的内存泄露](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0511/2861.html)
