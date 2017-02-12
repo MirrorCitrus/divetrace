@@ -70,6 +70,7 @@ public class ExampleActivity extends Activity implements View.OnClickListener {
 - 首先我们需要设置window的属性为允许Transition动画：FEATURE_ACTIVITY_TRANSITIONS和FEATURE_CONTENT_TRANSITIONS（这一步也可以通过xml设置主题来实现）
 - 然后，我们为当前Activity的Window设置Transition效果
 - 启动新的Activity时，需要调用ActivityOptions.makeSceneTransitionAnimation(TransitionActivity.this).toBundle();
+
 ```
 // TransitionActivityA.java
 public class TransitionActivity extends Activity implements View.OnClickListener {
@@ -128,6 +129,7 @@ public class SubActivity extends Activity {
 - 仍然是通过xml活着代码方式开启Feture_xxx_Transition
 - 对于需要作为一个整体的ViewGroup，设置它的isTransitionGroup属性为true
 - 为这个ViewGroup添加动画
+
 ```
 /**
  * AndroidManifest.xml
@@ -245,7 +247,7 @@ ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
 ```
 
 ## References
-- [国外博客](http://www.androiddesignpatterns.com/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html)
+- [国外的博客系列](http://www.androiddesignpatterns.com/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html)
 - [博文翻译](http://jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0113/2310.html)
 - [官方教程](https://developer.android.com/training/transitions/index.html)
 
