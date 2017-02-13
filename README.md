@@ -1,6 +1,6 @@
 # divetrace
 
-* [Introduction](README.md)
+* [Introduction](SUMMARY.md)
 * [WalkThrough](fragments/enjoyread.md)
 * [Deposit](deposit/README.md)
 * [OpenSources](dive-open-source/ReadMe.md)
