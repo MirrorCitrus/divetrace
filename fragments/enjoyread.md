@@ -1,6 +1,13 @@
 # OverView
 
 记录一些WalkThrough的简单内容和总结
+
+# #5) 自定义Lint
+Android Lint是Google提供给Android开发者的静态代码检查工具。为了满足一些工程个性化检查的需求，需要自定义Lint。
+使用时，需要继承于Detector，然后实现Scanner接口。Scanner接口定义了检查范围，典型的是JavaScanner（还包括XmlScanner, ResourceFolderScanner等）。
+##### 参考
+- [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
+
 # #4) LeakCanary
 LeakCanary.install()返回一个RefWatcher，用它监测某个对象时，会强制触发一次gc，再根据这个对象是否被回收判定是否有泄露。至于如何判定是否被回收，则是利用了WeakReference的一个特性：它指向的对象被回收时，引用会暂时存放在构建WeakReference的一个Queue中，查询该Queue即可判定是否被回收。
 
