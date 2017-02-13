@@ -4,7 +4,10 @@
 
 # #5) 自定义Lint
 Android Lint是Google提供给Android开发者的静态代码检查工具。为了满足一些工程个性化检查的需求，需要自定义Lint。
-使用时，需要继承于Detector，然后实现Scanner接口。Scanner接口定义了检查范围，典型的是JavaScanner（还包括XmlScanner, ResourceFolderScanner等）。
+使用时，需要继承于Detector，然后实现Scanner接口。Scanner接口定义了检查范围，典型的是JavaScanner（还包括XmlScanner, ResourceFolderScanner等）。需要实现的方法包括：
+- public List<Class<? extends Node>> getApplicableNodeTypes()： 用于指定需要检查的节点
+- public AstVisitor createJavaVisitor(final JavaContext context)： 用于创建JavaVisitor
+  - 例：ForwardingAstVisitor，复写visitMethodInvocation方法
 ##### 参考
 - [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
 
