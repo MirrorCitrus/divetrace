@@ -8,6 +8,7 @@ Android Lint是Google提供给Android开发者的静态代码检查工具。为�
 - public List<Class<? extends Node>> getApplicableNodeTypes()： 用于指定需要检查的节点
 - public AstVisitor createJavaVisitor(final JavaContext context)： 用于创建JavaVisitor
   - 例：ForwardingAstVisitor，复写visitMethodInvocation方法
+
 创建Detector的同时，还需要创建对应的Issue，一个Issue将对应lint上报的信息展示。最后需要注册Issue。
 ##### 参考
 - [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
