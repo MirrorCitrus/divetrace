@@ -78,6 +78,7 @@ static class FileRequestBodyConverterFactory extends Converter.Factory {
   }
 ```
 然后是一个自定义的响应的转换器：
+
 ```
 static class MyResponseConverterFactory extends Converter.Factory {    
     @Override
