@@ -100,7 +100,7 @@ static class MyResponseConverterFactory extends Converter.Factory {
 
 # 进阶使用
 ## 下载文件
-下载文件的接口，使用ResponseBody作为返回值，使用responseBody.contentLength()可以获得文件长度。使用responseBody.byteStream()获得输入流
+下载文件的接口，使用ResponseBody作为返回值，使用responseBody.contentLength()可以获得文件长度。使用responseBody.byteStream()获得输入流。
 ```
 private boolean writeResponseBodyToDisk(ResponseBody body) {  
     try {
