@@ -145,6 +145,7 @@ private boolean writeResponseBodyToDisk(ResponseBody body) {
     }
 }
 ```
+大文件不能这么使用。
 
 # 参考
 - [x] [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful)
