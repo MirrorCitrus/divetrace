@@ -99,6 +99,8 @@ static class MyResponseConverterFactory extends Converter.Factory {
 ```
 
 # 进阶使用
+## 下载文件
+
 
 # 参考
 - [x] [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful)
