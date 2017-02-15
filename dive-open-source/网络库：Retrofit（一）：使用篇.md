@@ -100,7 +100,51 @@ static class MyResponseConverterFactory extends Converter.Factory {
 
 # 进阶使用
 ## 下载文件
+下载文件的接口，使用ResponseBody作为返回值，使用responseBody.contentLength()可以获得文件长度。使用responseBody.byteStream()获得输入流
+```
+private boolean writeResponseBodyToDisk(ResponseBody body) {  
+    try {
+        File futureStudioIconFile = new File(...);
 
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+
+        try {
+            byte[] fileReader = new byte[4096];
+
+            long fileSize = body.contentLength();
+            long fileSizeDownloaded = 0;
+
+            inputStream = body.byteStream();
+            outputStream = new FileOutputStream(futureStudioIconFile);
+
+            while (true) {
+                int read = inputStream.read(fileReader);
+                if (read == -1) {
+                    break;
+                }
+                outputStream.write(fileReader, 0, read);
+                fileSizeDownloaded += read;
+                Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+            }
+            outputStream.flush();
+            return true;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+    } catch (IOException e) {
+        return false;
+    }
+}
+```
 
 # 参考
 - [x] [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful)
