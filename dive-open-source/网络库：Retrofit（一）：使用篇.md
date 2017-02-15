@@ -1,6 +1,14 @@
 # 概述
 > **Retrofit:** A type-safe HTTP client for Android and Java
 
+共3篇：
+* Part1: 使用篇
+* [Part2: RxJava和Retrofit实践经验](网络库：Retrofit（二）：RxJava和Retrofit实践经验.md)
+* [Part3: 原理篇](网络库：Retrofit（三）：原理篇.md)
+
+
+
+
 Retrofit是一个RESTful的HTTP网络请求框架的封装。注意这里并没有说它是网络请求框架，主要原因在于网络请求的工作并不是 Retrofit 来完成的。Retrofit 2.0 开始内置 OkHttp，前者专注于接口的封装，后者专注于网络请求的高效，二者分工协作。所以说，如果我们的网络接口是符合Restful规范的，使用Retrofit会非常方便。另一方面，Retrofit是支持RxJava的，这一点来说也是非常方便的。  
 > 注： restful架构其实是一种架构风格，或者说，更类似于服务端提供API接口时应该遵循的规范，对于客户端来说，可能直接可以理解为：服务端提供的url是否符合规范。这几个规范主要包括：
 > - 每一个URI代表一种资源；
