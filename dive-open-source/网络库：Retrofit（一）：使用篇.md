@@ -146,6 +146,11 @@ private boolean writeResponseBodyToDisk(ResponseBody body) {
 }
 ```
 大文件不能这么使用。需要使用@Streaming注解，这意味着立刻传递字节码，而不需要把整个文件读进内存。此时，在读取ResponseBody时，实际上仍然有网络请求，因此注意要在非主线程进行。
+```
+@Streaming
+@GET
+Call<ResponseBody> downloadFile(@Url String fileUrl);  
+```
 
 # 参考
 - [x] [理解RESTful架构](http://www.ruanyifeng.com/blog/2011/09/restful)
