@@ -1,6 +1,16 @@
 # OverView
 
 记录一些WalkThrough的简单内容和总结
+# 6) 单元测试框架
+#### 参考
+- [ ] [Android单元测试: 首先，从是什么开始](http://chriszou.com/2016/04/13/android-unit-testing-start-from-what.html)
+- [ ] [Android单元测试(三)：JUnit单元测试框架的使用](http://chriszou.com/2016/04/18/android-unit-testing-junit.html)
+- [ ] [Android单元测试（四）：Mock以及Mockito的使用]()
+- [ ] [Android单元测试（五）：依赖注入，将mock方便的用起来]() 
+Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用 
+安卓单元测试(八)：Junit Rule的使用 
+安卓单元测试(九)：使用Mockito Annotation快速创建Mock 
+安卓单元测试(十)：DaggerMock, 让Dagger2与单元测试的结合易如反掌
 
 # #5) 自定义Lint
 Android Lint是Google提供给Android开发者的静态代码检查工具。为了满足一些工程个性化检查的需求，需要自定义Lint。
