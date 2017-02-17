@@ -31,7 +31,7 @@ PasswordValidator spyValidator = Mockito.spy(PasswordValidator.class);
 - [ ] [目录](https://github.com/ChrisZou/android-unit-testing-tutorial)
 - [ ] [Android单元测试: 首先，从是什么开始](http://chriszou.com/2016/04/13/android-unit-testing-start-from-what.html)
 - [x] [Android单元测试(三)：JUnit单元测试框架的使用](http://chriszou.com/2016/04/18/android-unit-testing-junit.html)
-- [ ] [Android单元测试（四）：Mock以及Mockito的使用](http://chriszou.com/2016/04/29/android-unit-testing-mockito.html)
+- [x] [Android单元测试（四）：Mock以及Mockito的使用](http://chriszou.com/2016/04/29/android-unit-testing-mockito.html)
 - [ ] [Android单元测试（五）：依赖注入，将mock方便的用起来]() 
 Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用 
 安卓单元测试(八)：Junit Rule的使用 
