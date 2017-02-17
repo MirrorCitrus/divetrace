@@ -2,10 +2,36 @@
 
 记录一些WalkThrough的简单内容和总结
 # 6) 单元测试框架
+单元测试框架包括：
+- JUnit
+- Mokito
+
+Mokito的用法：
+```
+// 1. 验证方法是否被调用
+UserManager mockUserManager = Mockito.mock(UserManager.class);  
+Mockito.verify(mockUserManager).performLogin("xiaochuang", "xiaochuang password");  
+// 2. 指定mock对象的某些方法的返回值
+PasswordValidator mockValidator = Mockito.mock(PasswordValidator.class);
+Mockito.when(mockValidator.verifyPassword("xiaochuang_is_handsome")).thenReturn(true);
+// 3. 指定mock对象的某些方法的执行
+Mockito.doAnswer(new Answer() {
+    @Override
+    public Object answer(InvocationOnMock invocation) throws Throwable {
+        Object[] arguments = invocation.getArguments();
+        NetworkCallback callback = (NetworkCallback) arguments[2];
+        callback.onFailure(500, "Server error");
+        return 500;
+    }
+}).when(mockUserManager).performLogin(anyString(), anyString(), any(NetworkCallback.class));
+// 使用spy创建一个默认调用原来逻辑的mock对象
+PasswordValidator spyValidator = Mockito.spy(PasswordValidator.class);
+```
 #### 参考
+- [ ] [目录](https://github.com/ChrisZou/android-unit-testing-tutorial)
 - [ ] [Android单元测试: 首先，从是什么开始](http://chriszou.com/2016/04/13/android-unit-testing-start-from-what.html)
-- [ ] [Android单元测试(三)：JUnit单元测试框架的使用](http://chriszou.com/2016/04/18/android-unit-testing-junit.html)
-- [ ] [Android单元测试（四）：Mock以及Mockito的使用]()
+- [x] [Android单元测试(三)：JUnit单元测试框架的使用](http://chriszou.com/2016/04/18/android-unit-testing-junit.html)
+- [ ] [Android单元测试（四）：Mock以及Mockito的使用](http://chriszou.com/2016/04/29/android-unit-testing-mockito.html)
 - [ ] [Android单元测试（五）：依赖注入，将mock方便的用起来]() 
 Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用 
 安卓单元测试(八)：Junit Rule的使用 
