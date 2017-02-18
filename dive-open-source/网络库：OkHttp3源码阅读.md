@@ -100,6 +100,15 @@ private RealConnection findConnection(int connectTimeout, int readTimeout, int w
   return result;
 }
 ```
+由前述的ConnectionPool的结构可知，ConnectionPool通过 `connections:ArrayDeque<RealConnection>`来管理可复用的连接。
+- Connection的自动回收
+
+为了保证Connection在合适的时机（不再被使用、链路时间超过5分钟、同一个host下的连接超过5个）被自动关闭，需要有自动清理的逻辑。显然就是ConnectionPool的cleanUpRunnable所负责。大概的回收过程描述如下，代码就不贴了。
+1. 每次put一个Connection时，都检查是否在运行cleanUpRunnable，如果没有运行就放入线程池中执行。这意味着只要ConnectionPool非空，这个runnable就在执行。
+2. 遍历connections，找出其中没有被使用的、且空闲的时间最长的Connection，检查它是否满足(空闲socket连接超过5个&&keepalive时间大于5分钟)的条件，如果满足就清除、同时立刻重复2的操作；如果不满足条件，就等待这个连接的到期时间，也就是过一会儿再进行清除操作；如果都是活跃连接，则5分钟后再次进行清理操作。
+
+- 基于引用计数法的连接活跃判定
+  
 
 # Cache & CacheStrategy：缓存策略
 
