@@ -1,7 +1,15 @@
 # 概述
 
 # 拦截器和总体流程
+OkHttp引入了拦截器机制，将一次网络请求的过程，转换为一个拦截器链的持续执行。让一个网络请求的过程既分工明确、又赋予开发者方便的定制、处理的能力。
 ![OkHttp拦截器过程图](/assets/okhttp-1.png)
+一个典型的Call大概要经历这样几个拦截器：
+
+- RetryAndFollowUpInterceptor: 重试和FollowUp拦截器，作用：尝试从错误中恢复；尝试根据response进行授权、重定向、超时重试。(这个Interceptor会创建streamAllocation)
+- BridgeInterceptor：桥接拦截器。首先对用户构建是request进行一定的转义与加工（主要是处理一下头部），然后获取response，最后对response做一些处理和加工后返回（主要是Cookie的一些处理）。
+- CacheInterceptor：负责缓存，核心在CacheStrategy当中
+- ConnectInterceptor：连接操作。负责线路查找（Route查找，RouteSelector实现）、创建socket、握手、构建“输入/输出流”Source和Sink、并创建“解析器”Codec。另一方面，借助于ConnectionPool，实现连接复用，即：连接前，从ConnectionPool中查询是否有可复用的Connection；如果没有，新建的Connection要放入Pool中以被使用。
+- CallServerInterceptor：最后一层，进行Http流的读写和解析（也可以认为是序列化和反序列化）。借助于HttpCodec.writeRequestHeaders..等方法和Sink/Source实现。
 # ConnectionPool机制：复用连接池和Connection自动回收
 
 # Cache & CacheStrategy：缓存策略
