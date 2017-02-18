@@ -31,7 +31,21 @@ Retry和FollowUp，重试是指：当网络有问题、出错、超时等情况�
 
 # ConnectionPool机制：复用连接池和Connection自动回收
 OkHttp的一个很大的特点就是连接复用以减少延迟（当然http2协议不需要），也就是说，默认为每个连接增加keep-alive头部。这也意味着，OkHttp需要管理可复用的连接，并在适当的时候关闭连接，实现的核心在ConnectionPool中。
-另一方面，Keep-alive的头部的添加在前述的BridgeInterceptor中；连接池的操作在前述的ConnectionInterceptor中。
+另一方面，Keep-alive的头部的添加在前述的BridgeInterceptor中。而连接池的操作在前述的ConnectionInterceptor中，过程非常简单：
+```
+public final class ConnectInterceptor implements Interceptor {
+
+  @Override 
+  public Response intercept(Chain chain) throws IOException {
+    ...
+    HttpCodec httpCodec = streamAllocation.newStream(client, doExtensiveHealthChecks);
+    RealConnection connection = streamAllocation.connection();
+
+    return realChain.proceed(request, streamAllocation, httpCodec, connection);
+  }
+```
+首先调用streamAllocation.newStream(..)方法，这个方法负责查找或创建一个可用的连接Connection，再从Connection中获得对应的HttpCodec负责request/response的编码和解码，或者说序列化和反序列化。再从streamAllocation.connection()方法获取刚刚的可用连接，最后调用chain.proceed进行真正的request写入和response解析。
+查找/创建一个可用连接的过程封装在StreamAllocation.findHealthyConnection(...)中，这个方法会先查找连接池中是否具有可复用的连接（ConnectionPool.get()），如果有可以直接返回；如果没有，则需新建，包括线路查找（Route查找，RouteSelector实现）、创建socket、握手、构建“输入/输出流”Source和Sink等过程。
 
 # Cache & CacheStrategy：缓存策略
 
