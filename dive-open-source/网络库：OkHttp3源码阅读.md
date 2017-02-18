@@ -1,4 +1,10 @@
 # 概述
+> OkHttp: An HTTP & HTTP/2 client for Android and Java applications. OkHttp is efficient by default:
+- HTTP/2 support allows all requests to the same host to share a socket.
+- Connection pooling reduces request latency (if HTTP/2 isn’t available).
+- Transparent GZIP shrinks download sizes.
+- Response caching avoids the network completely for repeat requests.
+
 
 # 拦截器和总体流程
 OkHttp引入了拦截器机制，将一次网络请求的过程，转换为一个拦截器链的持续执行。让一个网络请求的过程既分工明确，又赋予开发者方便的定制和处理的能力。
@@ -24,7 +30,8 @@ Retry和FollowUp，重试是指：当网络有问题、出错、超时等情况�
 最后一层，进行Http流的读写和解析（也可以认为是序列化和反序列化）。借助于HttpCodec.writeRequestHeaders..等方法和Sink/Source实现。
 
 # ConnectionPool机制：复用连接池和Connection自动回收
-
+OkHttp的一个很大的特点就是连接复用以减少延迟（当然http2协议不需要），也就是说，默认为每个连接增加keep-alive头部。这也意味着，OkHttp需要管理可复用的连接，并在适当的时候关闭连接，实现的核心在ConnectionPool中。
+另一方面，Keep-alive的头部的添加在前述的BridgeInterceptor中；连接池的操作在前述的ConnectionInterceptor中。
 
 # Cache & CacheStrategy：缓存策略
 
