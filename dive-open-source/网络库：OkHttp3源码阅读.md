@@ -46,6 +46,47 @@ public final class ConnectInterceptor implements Interceptor {
 ```
 首先调用streamAllocation.newStream(..)方法，这个方法负责查找或创建一个可用的连接Connection，再从Connection中获得对应的HttpCodec负责request/response的编码和解码，或者说序列化和反序列化。再从streamAllocation.connection()方法获取刚刚的可用连接，最后调用chain.proceed进行真正的request写入和response解析。
 查找/创建一个可用连接的过程封装在StreamAllocation.findHealthyConnection(...)中，这个方法会先查找连接池中是否具有可复用的连接（ConnectionPool.get()），如果有可以直接返回；如果没有，则需新建，包括线路查找（Route查找，RouteSelector实现）、创建socket、握手、构建“输入/输出流”Source和Sink等过程。
+讲完大致过程，再详细介绍一下ConnectionPool的工作机制。
+- ConnectionPool的创建
+
+ConnectionPool被OkHttpClient创建并持有。由下面的构造函数可知，默认的连接池最大有5个空闲连接，链路生命是5分钟。
+
+```
+public ConnectionPool() {
+  this(5, 5, TimeUnit.MINUTES);
+}
+public ConnectionPool(int maxIdleConnections, long keepAliveDuration, TimeUnit timeUnit) {
+    // ...
+}
+```
+- ConnectionPool的get/put API
+
+既然是Pool，最重要的两个API自然就是get和put了。在StreamAllocation方法中，我们首先尝试从ConnectionPool中获取一个可复用的Connection，如果有，则直接返回；如果没有再创建，创建好之后，需要put到Pool中供复用。
+值得一提的时，外部并不是直接通过ConnectionPool.get/put方法来操作的，而是通过Internal类的get/put方法，这两个方法其实就是对ConnectionPool.get/put方法做了一层包装，主要是为了让外部包的成员访问非public方法。
+
+```
+/**
+* Returns a connection to host a new stream. This prefers the existing connection if it exists,
+* then the pool, finally building a new connection.
+*/
+private RealConnection findConnection(int connectTimeout, int readTimeout, int writeTimeout,
+    boolean connectionRetryEnabled) throws IOException {
+  synchronized (connectionPool) {
+    // 从pool中获取Connection
+    Internal.instance.get(connectionPool, address, this);
+    if (connection != null) {
+      return connection;
+    }
+  }
+  // … 构建Connection
+  synchronized (connectionPool) {
+    // Pool the connection.
+    Internal.instance.put(connectionPool, result);
+    // ...
+  }
+  return result;
+}
+```
 
 # Cache & CacheStrategy：缓存策略
 
