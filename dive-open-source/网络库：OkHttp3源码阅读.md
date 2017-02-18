@@ -49,16 +49,30 @@ public final class ConnectInterceptor implements Interceptor {
 讲完大致过程，再详细介绍一下ConnectionPool的工作机制。
 - ConnectionPool的创建
 
-ConnectionPool被OkHttpClient创建并持有。由下面的构造函数可知，默认的连接池最大有5个空闲连接，链路生命是5分钟。
+ConnectionPool被OkHttpClient创建并持有。大概的结构如下：
+```
+public final class ConnectionPool {
+  private static final Executor executor = new ThreadPoolExecutor(0 /* corePoolSize */,
+      Integer.MAX_VALUE /* maximumPoolSize */, 60L /* keepAliveTime */, TimeUnit.SECONDS,
+      new SynchronousQueue<Runnable>(), Util.threadFactory("OkHttp ConnectionPool", true));
+      
+  private final int maxIdleConnections;
+  private final long keepAliveDurationNs;
+  private final Runnable cleanupRunnable;
 
-```
-public ConnectionPool() {
-  this(5, 5, TimeUnit.MINUTES);
-}
-public ConnectionPool(int maxIdleConnections, long keepAliveDuration, TimeUnit timeUnit) {
+  private final Deque<RealConnection> connections = new ArrayDeque<>();
+  
+  public ConnectionPool() {
+    this(5, 5, TimeUnit.MINUTES);
+  }
+
+  public ConnectionPool(int maxIdleConnections, long keepAliveDuration, TimeUnit timeUnit) {
     // ...
-}
+    }
+  }
 ```
+由默认的构造函数可知，默认的连接池最大有5个空闲连接，链路生命是5分钟。
+
 - ConnectionPool的get/put API
 
 既然是Pool，最重要的两个API自然就是get和put了。在StreamAllocation方法中，我们首先尝试从ConnectionPool中获取一个可复用的Connection，如果有，则直接返回；如果没有再创建，创建好之后，需要put到Pool中供复用。
@@ -82,7 +96,6 @@ private RealConnection findConnection(int connectTimeout, int readTimeout, int w
   synchronized (connectionPool) {
     // Pool the connection.
     Internal.instance.put(connectionPool, result);
-    // ...
   }
   return result;
 }
