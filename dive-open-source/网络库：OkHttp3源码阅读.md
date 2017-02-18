@@ -3,7 +3,7 @@
 # 拦截器和总体流程
 OkHttp引入了拦截器机制，将一次网络请求的过程，转换为一个拦截器链的持续执行。让一个网络请求的过程既分工明确、又赋予开发者方便的定制、处理的能力。
 ![OkHttp拦截器过程图](/assets/okhttp-1.png)
-一个典型的Call大概要经历这样几个拦截器：
+在外部没有附加任何额外操作的情况下，一个Call默认要经历这样5个拦截器，对应着一次网络请求的5个过程：
 
 - RetryAndFollowUpInterceptor: 重试和FollowUp拦截器，作用：尝试从错误中恢复；尝试根据response进行授权、重定向、超时重试。(这个Interceptor会创建streamAllocation)
 - BridgeInterceptor：桥接拦截器。首先对用户构建是request进行一定的转义与加工（主要是处理一下头部），然后获取response，最后对response做一些处理和加工后返回（主要是Cookie的一些处理）。
