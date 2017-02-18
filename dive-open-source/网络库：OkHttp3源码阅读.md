@@ -12,13 +12,19 @@ interceptor可以从chain中直接获取request，但是需要从chain.proceed�
 
 OkHttp把用户的拦截器放在默认拦截器之前，默认拦截器链的构造在RealCall.getResponseWithIntereptorChain()中。也就是说，一个Call默认要经历这样5个拦截器，对应着一次网络请求的5个子过程：
 ![OkHttp拦截器过程图](/assets/okhttp-1.png)
-- RetryAndFollowUpInterceptor: Retry和FollowUp，重试是指：当网络有问题、出错、超时等情况出现而导致错误时，通过再发起一次请求来进行重试；FollowUp是指：当需要授权、需要重定向、条件GET请求返回等情况发生时，需要接着进行一次请求。(StreamAllocation会在这里构造)。
-- BridgeInterceptor：桥接拦截器。主要是在请求前后进行一些Header的处理（主要是Cookie的一些处理）。
-- CacheInterceptor：负责缓存（磁盘缓存和Http缓存策略），核心在CacheStrategy当中
-- ConnectInterceptor：连接操作。负责线路查找（Route查找，RouteSelector实现）、创建socket、握手、构建“输入/输出流”Source和Sink、并创建“解析器”Codec。另一方面，借助于ConnectionPool，实现连接复用，即：连接前，从ConnectionPool中查询是否有可复用的Connection；如果没有，新建的Connection要放入Pool中以被使用。
-- CallServerInterceptor：最后一层，进行Http流的读写和解析（也可以认为是序列化和反序列化）。借助于HttpCodec.writeRequestHeaders..等方法和Sink/Source实现。
+- RetryAndFollowUpInterceptor: 
+Retry和FollowUp，重试是指：当网络有问题、出错、超时等情况出现而导致错误时，通过再发起一次请求来进行重试；FollowUp是指：当需要授权、需要重定向、条件GET请求返回等情况发生时，需要接着进行一次请求。(StreamAllocation会在这里构造)。
+- BridgeInterceptor：
+桥接拦截器。主要是在请求前后进行一些Header的处理（主要是Cookie的一些处理）。
+- CacheInterceptor：
+负责缓存（磁盘缓存和Http缓存策略），核心在CacheStrategy当中。
+- ConnectInterceptor：
+连接操作。负责线路查找（Route查找，RouteSelector实现）、创建socket、握手、构建“输入/输出流”Source和Sink、并创建“解析器”Codec。另一方面，借助于ConnectionPool，实现连接复用，即：连接前，从ConnectionPool中查询是否有可复用的Connection；如果没有，新建的Connection要放入Pool中以被使用。
+- CallServerInterceptor：
+最后一层，进行Http流的读写和解析（也可以认为是序列化和反序列化）。借助于HttpCodec.writeRequestHeaders..等方法和Sink/Source实现。
 
 # ConnectionPool机制：复用连接池和Connection自动回收
+
 
 # Cache & CacheStrategy：缓存策略
 
