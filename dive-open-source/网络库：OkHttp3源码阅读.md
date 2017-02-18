@@ -2,7 +2,7 @@
 
 # 拦截器和总体流程
 OkHttp引入了拦截器机制，将一次网络请求的过程，转换为一个拦截器链的持续执行。让一个网络请求的过程既分工明确，又赋予开发者方便的定制和处理的能力。
-拦截器Intercepter本身是一个接口，只有一个接口方法intercept()。利用这个接口，可以实现在request和请求后的response的观察和修改。，
+拦截器Intercepter本身是一个接口，只有一个接口方法intercept()。利用这个接口，可以实现在request和请求后的response的观察和修改。
 ```
   Response intercept(Chain chain) throws IOException;
 ```
