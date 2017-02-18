@@ -8,7 +8,7 @@ OkHttp引入了拦截器机制，将一次网络请求的过程，转换为一�
 ```
 interceptor可以从chain中直接获取request，但是需要从chain.proceed方法中获取response，这意味着一个interceptor必须在它之后所有的拦截器都执行完之后，才能获取到response进行处理。由于一般拦截器链的最后都是进行真正的网络操作，所以用户的拦截器一般是在网络执行前对request进行操作、在网络执行后对response进行操作。
 
-再回到Chain.proceed方法。拦截器链本身维护了一个拦截器列表，并保存一个index指向当前需要执行的拦截器，然后调用该拦截器的intercept方法。如果index指向了拦截器链的末尾，所有的执行也就结束。
+再回到Chain.proceed方法。拦截器链本身维护了一个拦截器列表，并保存一个index指向当前需要执行的拦截器，然后调用该拦截器的intercept方法。如果index指向了拦截器链的末尾，所有的执行也就结束。执行的触发点就是Chain.proceed，这也是刚刚所说，一旦一个拦截器调用了chain.proceed方法，它之后的拦截器会依次被调用执行，其后它才能拿到被处理过的返回。
 
 ![OkHttp拦截器过程图](/assets/okhttp-1.png)
 在外部没有附加任何额外操作的情况下，一个Call默认要经历这样5个拦截器，对应着一次网络请求的5个过程：
