@@ -17,7 +17,7 @@
 对AttributeSet分组后，对应于某个Stylable的集合。即:一组<attr>的封装。我们可以通过context.obtainStyledAttributes(R.stylable.xxx, …)来获取该对象，从而更加方便地获取我们需要的属性对。另外还提供了一些直接取值的方法：getColor,getFloat等，无需再解析string类型的值。当然，系统在解析xml的时候（例如解析LayoutParams的时候），实际上也是利用了TypedArray
 
 * AssetManager
-真正管理资源的类。包括assert/和res/下的资源管理。在jni层面实现根据R文件中的id获取资源的功能。
+真正管理资源的类。包括assert/和res/下的资源管理。在jni层面实现根R文件中的id获取资源的功能。
 
 # Resources对象的获取
 入口：
@@ -68,6 +68,7 @@ Resources getTopLevelResources(String resDir, String[] splitResDirs, String[] ov
 		* libDirs中.apk后缀的路径
 * 构建Resources对象
 * 添加到Map中，再返回
+
 ```
 /**
 * Creates the top level Resources for applications with the given compatibility info.
@@ -182,7 +183,7 @@ public Resources getResourcesForApplication(@NonNull ApplicationInfo app)
 }
 ```
 # aapt工具简介
-TODO: TODO: 
+TODO: 
 
 # 实践：“插件化”方式实现应用程序主题切换
 参考：

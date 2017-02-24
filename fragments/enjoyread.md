@@ -1,6 +1,13 @@
 # OverView
 
 记录一些WalkThrough的简单内容和总结
+
+# 7) MVP/MVVM设计模式
+
+#### 参考
+- [ ] [目录](https://github.com/ChrisZou/android-unit-testing-tutorial)
+
+
 # 6) 单元测试框架
 单元测试框架包括：
 - JUnit
@@ -32,11 +39,12 @@ PasswordValidator spyValidator = Mockito.spy(PasswordValidator.class);
 - [ ] [Android单元测试: 首先，从是什么开始](http://chriszou.com/2016/04/13/android-unit-testing-start-from-what.html)
 - [x] [Android单元测试(三)：JUnit单元测试框架的使用](http://chriszou.com/2016/04/18/android-unit-testing-junit.html)
 - [x] [Android单元测试（四）：Mock以及Mockito的使用](http://chriszou.com/2016/04/29/android-unit-testing-mockito.html)
-- [ ] [Android单元测试（五）：依赖注入，将mock方便的用起来]() 
-Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用 
-安卓单元测试(八)：Junit Rule的使用 
-安卓单元测试(九)：使用Mockito Annotation快速创建Mock 
-安卓单元测试(十)：DaggerMock, 让Dagger2与单元测试的结合易如反掌
+- [x] [Android单元测试（五）：依赖注入，将mock方便的用起来](http://chriszou.com/2016/05/06/android-unit-testing-di.html) 
+- [ ] [Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用](http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html)
+- [ ] [Android单元测试（七）：Robolectric，在JVM上调用安卓的类](http://chriszou.com/2016/06/05/robolectric-android-on-jvm.html)
+- [ ] [安卓单元测试(八)：Junit Rule的使用](http://www.jianshu.com/p/2cd745e54a78)
+- [ ] [安卓单元测试(九)：使用Mockito Annotation快速创建Mock](http://www.jianshu.com/p/7f6a1d3aa516)
+- [ ] [安卓单元测试(十)：DaggerMock, 让Dagger2与单元测试的结合易如反掌](http://www.jianshu.com/p/8c1b4ea379af)
 
 # #5) 自定义Lint
 Android Lint是Google提供给Android开发者的静态代码检查工具。为了满足一些工程个性化检查的需求，需要自定义Lint。
