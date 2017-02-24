@@ -4,7 +4,7 @@
   * [Part3: 原理篇](网络库：Retrofit（三）：原理篇.md)
 * [DataBindingLibrary](Android的MVVM设计模式：DataBindingLibrary原理分析.md)
 * OkHttp
-  * [OkHttp: 使用篇](dive-open-source/OkHttp（一）：使用篇.md)
+  * [OkHttp: 使用篇](OkHttp（一）：使用篇.md)
   * [OkHttp: 源码篇](网络库：OkHttp3源码阅读.md)
 
 
