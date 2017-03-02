@@ -2,6 +2,70 @@
 
 记录一些WalkThrough的简单内容和总结
 
+# 8) Dagger
+#### Module和Component
+
+#### Component给Client提供Dependency的方法
+- 在Component里面定义一个返回Dependency的方法
+
+1. 定义一个AppModule类，里面定义了一些Provider方法
+```
+ @Module
+public class AppModule {
+     // ...
+    @Provides
+    public LoginPresenter provideLoginPresenter(UserManager userManager, PasswordValidator validator) {
+         return new LoginPresenter(userManager, validator);
+     }
+ }
+```
+
+2. 定义一个 AppComponent，里面定义了一个返回LoginPresenter的方法loginPresenter()。
+
+- @Component(modules = {AppModule.class})
+- public interface AppComponent {
+-     LoginPresenter loginPresenter();
+- }
+
+就这样，我们便可以使用 DaggerAppComponent.builder().appModule(new AppModule(this)).build().loginPresenter(); 来获取一个LoginPresenter对象了。
+
+方法二：Field Injection
+1. 在需要用到注入的client的位置，使用@Inject修饰需要注入的field
+3. 为component添加和client类型匹配的inject()方法
+
+@Component(modules = {AppModule.class})
+public interface AppComponent {
+    void inject(LoginActivity loginActivity);  //<=
+}
+
+2. 构建componenet，调用它的inject方法
+
+public class LoginActivity extends AppCompatActivity {
+    @Inject
+    LoginPresenter mLoginPresenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        AppComponent appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build(); //<=
+        appComponent.inject(this); //<=
+
+        //从此之后，mLoginPresenter就被实例化了
+        //mLoginPresenter.isLogin()
+    }
+}
+
+4. Dagger自动从module中将所有被@Inject标注的field调用对应的provide方法注入
+
+@Singleton和Constructor Injection
+1. 如果希望Module里面的provide方法产生的实例是单例的，只要在方法上增加@Singleton注解
+2. Module中如果很多provider方法里面都是直接new一个对象返回，那么这个provide方法就可以省略，在相应的类的构造函数上添加@Inject，这个和自己写一个provide方法是等价的
+
+使用Dagger进行单元测试
+核心是将module进行spy,mock部分provide方法。
+
 # 7) MVP/MVVM设计模式
 
 #### 参考
