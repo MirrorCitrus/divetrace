@@ -1,6 +1,13 @@
 # OverView
 
-记录一些WalkThrough的简单内容和总结
+记录一些WalkThrough的简单内容和总结。
+标签分类：
+- 编程艺术/架构思考/方法论：MVP/MVVM
+- CS基础：
+- Android知识：recyclerView
+- 流行技能：单元测试；Dagger；Kotlin；自定义Lint； LeakCanary
+- 其他
+
 
 # 8) Dagger
 #### Module和Component
