@@ -4,9 +4,10 @@
 
 # 8) Dagger
 #### Module和Component
-
+Module: 生成Dependency的工厂
+Comonent: Module的管理员
 #### Component给Client提供Dependency的方法
-- 在Component里面定义一个返回Dependency的方法
+方法一： 在Component里面定义一个返回Dependency的方法
 
 1. 定义一个AppModule类，里面定义了一些Provider方法
 ```
@@ -20,26 +21,28 @@ public class AppModule {
  }
 ```
 
-2. 定义一个 AppComponent，里面定义了一个返回LoginPresenter的方法loginPresenter()。
+2. 定义一个Component（接口形式），里面定义一个返回Dependency的方法。Dagger会根据从Module中生成这个dependency返回出来。
+```
+ @Component(modules = {AppModule.class})
+ public interface AppComponent {
+     LoginPresenter loginPresenter();
+ }
+```
+3. 使用`DaggerAppComponent.builder().appModule(new AppModule(this)).build().loginPresenter();`获取一个Dependency对象
 
-- @Component(modules = {AppModule.class})
-- public interface AppComponent {
--     LoginPresenter loginPresenter();
-- }
-
-就这样，我们便可以使用 DaggerAppComponent.builder().appModule(new AppModule(this)).build().loginPresenter(); 来获取一个LoginPresenter对象了。
 
 方法二：Field Injection
-1. 在需要用到注入的client的位置，使用@Inject修饰需要注入的field
-3. 为component添加和client类型匹配的inject()方法
 
+1. 在需要用到注入的client的位置，使用@Inject修饰需要注入的field
+2. 为component添加和client类型匹配的inject()方法
+```
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     void inject(LoginActivity loginActivity);  //<=
 }
-
-2. 构建componenet，调用它的inject方法
-
+```
+3. 构建componenet，调用它的inject方法
+```
 public class LoginActivity extends AppCompatActivity {
     @Inject
     LoginPresenter mLoginPresenter;
@@ -56,14 +59,14 @@ public class LoginActivity extends AppCompatActivity {
         //mLoginPresenter.isLogin()
     }
 }
-
+```
 4. Dagger自动从module中将所有被@Inject标注的field调用对应的provide方法注入
 
-@Singleton和Constructor Injection
+#### @Singleton和Constructor Injection
 1. 如果希望Module里面的provide方法产生的实例是单例的，只要在方法上增加@Singleton注解
 2. Module中如果很多provider方法里面都是直接new一个对象返回，那么这个provide方法就可以省略，在相应的类的构造函数上添加@Inject，这个和自己写一个provide方法是等价的
 
-使用Dagger进行单元测试
+#### 使用Dagger进行单元测试
 核心是将module进行spy,mock部分provide方法。
 
 # 7) MVP/MVVM设计模式
@@ -104,7 +107,7 @@ PasswordValidator spyValidator = Mockito.spy(PasswordValidator.class);
 - [x] [Android单元测试(三)：JUnit单元测试框架的使用](http://chriszou.com/2016/04/18/android-unit-testing-junit.html)
 - [x] [Android单元测试（四）：Mock以及Mockito的使用](http://chriszou.com/2016/04/29/android-unit-testing-mockito.html)
 - [x] [Android单元测试（五）：依赖注入，将mock方便的用起来](http://chriszou.com/2016/05/06/android-unit-testing-di.html) 
-- [ ] [Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用](http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html)
+- [x] [Android单元测试（六）：使用dagger2来做依赖注入，以及在单元测试中的应用](http://chriszou.com/2016/05/10/android-unit-testing-di-dagger.html)
 - [ ] [Android单元测试（七）：Robolectric，在JVM上调用安卓的类](http://chriszou.com/2016/06/05/robolectric-android-on-jvm.html)
 - [ ] [安卓单元测试(八)：Junit Rule的使用](http://www.jianshu.com/p/2cd745e54a78)
 - [ ] [安卓单元测试(九)：使用Mockito Annotation快速创建Mock](http://www.jianshu.com/p/7f6a1d3aa516)
