@@ -3,7 +3,7 @@
 * [OkHttp: 源码篇](网络库：OkHttp3源码阅读.md)
 
 ---
-摘录自[OkHttp wiki: Recipes](https://github.com/square/okhttp/wiki/Recipes)
+本文摘录自[OkHttp wiki: Recipes](https://github.com/square/okhttp/wiki/Recipes)
 # 基本使用
 ## 同步Get
 

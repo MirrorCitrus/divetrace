@@ -125,7 +125,39 @@ private RealConnection findConnection(int connectTimeout, int readTimeout, int w
 
 * 基于引用计数法的连接活跃判定
 
+前述的Connection自动回收逻辑中，需要找到连接池中“没有被使用”的Connection，关于是否被使用的判定，则是基于StreamAllocation的引用计数机制的。RealConnection中有个allocations成员变量，是`List<WeakReference<StreamAllocation>>`类型，负责追踪引用着该Connection的StreamAllocation。
+```
+/** Current streams carried by this connection. */
+public final List<Reference<StreamAllocation>> allocations = new ArrayList<>();
+```
+当我们构建一个RealConnection时（当然这个Connection同时也被放进ConnectionPool中），这个allocations列表里添加当前的StreamAllocation的弱引用；当我们从ConnectionPool中取出一个Connection时，也在列表中添加当前的StreamAllocation的弱引用；而当一个网络请求结束/出错/需要关闭（例如设置了Connection:close）时，则需要将弱引用清除。当这个列表为空时，也就是前面所说的“没有在被使用了”，那么很快它就需要从连接池中被清除了。
+弱引用添加和删除的地方在StreamAllocaion的`aquire()`和`release(...)`方法中。
+
+* StreamAllocation: 将Call、Connection(s)、Stream(s)关联起来
+
+最后我们梳理一下StreamAllocation的作用。从前面的论述可以看出，Connection之所以要持有StreamAllocation的弱引用列表，是因为它对于Connection来说扮演了一个“使用者”的角色。另一方面，“使用者”的角色也就相当于上层使用者创建的一个Call，这就好理解，为什么它在首个Interceptor中创建，并在InterceptorChain中被传递（相当于贯穿一个请求的流程）。另一方面，为了方便地进行引用计数的添加和删除，Connection的创建，判断何时关闭并执行关闭、从ConnectionPool中查找可复用的Connection，都由它负责。所以，StreamAllocation其实封装了Connection的相关操作，隐藏了大部分的底层细节，只暴露很少的api供外部调用。
+
 # Cache & CacheStrategy：缓存策略
+### 磁盘缓存
+OkHttp的磁盘缓存主要是通过`Cache`实现的。主要使用的是DiskLruCache。不过稍微改造了一下：一个是使用FileSystem类封装了一些File（文件/文件夹）的操作；另一个是文件流的读写接入了Okio。
+
+### Http缓存
+Http的缓存策略主要是通过几个重要的头部实现的，大概包括这样几个步骤：
+
+- 客户端根据Response的Header判断是否过期
+    - Expire: 文件过期时间
+    - cache-control: 文件存续时间
+- 若已经过期，判断是否有缓存条件信息，如果有，进行条件GET查询，由服务端进一步决策是否过期
+    - Tag和If-None-Match
+    - Last-Modified和If-Modified-Since
+- 如果服务端判断未过期，还可以进一步使用，则返回304NotModified
+- 如果过期，正常请求
+
+其他的缓存控制Header包括：
+- no-cache
+- only-if-cached
+
+OkHttp中，关于缓存的实现类是CacheStrategy.Factory。主要是通过实现上述逻辑。CacheStrategy很容易让人感觉是一个“策略”类，其实它更接近于一个结构体。
 
 # Dispatcher：异步请求管理
 
