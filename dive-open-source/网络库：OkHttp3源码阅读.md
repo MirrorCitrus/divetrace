@@ -175,10 +175,6 @@ Http的缓存策略主要是通过几个重要的头部实现的，大概包括�
 
 OkHttp中，关于缓存的实现类是CacheStrategy.Factory。主要是通过实现上述逻辑。CacheStrategy很容易让人感觉是一个“策略”类，其实它更接近于一个结构体。
 
-# Dispatcher：异步请求管理
-
-# Sink&Source
-
 # References
 
 * [OkHttp3源码解析\[综述\]](http://www.jianshu.com/p/aad5aacd79bf#)
