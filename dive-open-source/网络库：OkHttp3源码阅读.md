@@ -37,6 +37,22 @@ OkHttp把用户的拦截器放在默认拦截器之前，默认拦截器链的�
 * CallServerInterceptor：
   最后一层，进行Http流的读写和解析（也可以认为是序列化和反序列化）。借助于HttpCodec.writeRequestHeaders..等方法和Sink/Source实现。
 
+# Dispatcher：异步请求管理
+使用`Call.enqueue(Callback responseCallback)`就是入队了一个异步请求，异步请求的管理全部是交由Dispatcher来做的。当我们将一个Call入队时，其实是转而enqueue到了Dispather中，如下代码：
+```
+@Override 
+public void enqueue(Callback responseCallback) {
+    client.dispatcher().enqueue(new AsyncCall(responseCallback));
+}
+```
+Dispatcher当中构建了一个线程池，以执行入队的request。
+```
+executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,
+          new SynchronousQueue<Runnable>(), Util.threadFactory("OkHttp Dispatcher", false));
+```
+Dispatcher内部实现了"懒加载无边界限制的线程池"方式，即这个线程池的前两个参数：corePoolSize=0, maxCorePoolSize = Integer.Max_value。这意味着，线程池可以根据任务数无限增加线程数量；同时并不保证最小的线程数。当线程空闲超过alive时间（60s）后，就会回收线程。
+不保留最小线程数好理解，为什么不限制最大线程数呢？实际上，Dispatcher本身进行了限制：同一时间进行的所有请求不可以超过64个，同一个host的请求不可以超过5个。每个AsyncCall在真正enqueue之前都会做这个条件的检测，如果超出限制，将进入readyAsyncCalls里面排队等待；而一旦有AsyncCall完成之后，会调用`client.dispatcher().finished(call)`，这个方法除了将已经结束的call从running队列中移除之外，还会调用`promoteCalls()`方法，负责将ready队列中可以执行的Call再放入线程池。
+
 # ConnectionPool机制：复用连接池和Connection自动回收
 
 OkHttp的一个很大的特点就是连接复用以减少延迟（当然http2协议不需要），也就是说，默认为每个连接增加keep-alive头部。这也意味着，OkHttp需要管理可复用的连接，并在适当的时候关闭连接，实现的核心在ConnectionPool中。  
