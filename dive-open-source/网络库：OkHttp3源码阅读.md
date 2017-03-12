@@ -10,6 +10,30 @@
 > * Transparent GZIP shrinks download sizes.
 > * Response caching avoids the network completely for repeat requests.
 
+官方说明镇楼。
+Android的主流网络框架包括：Volley, OkHttp, Retrofit等。近年来，各个App的网络框架标配基本都是OkHttp+Retrofit+RxJava, 其中，OkHttp专注于Http协议层的封装，更加倾向于一个原始请求的处理；而Retrofit则专注于RESTFUL请求的封装，两者严格意义上不属于同一个维度。
+横向对比的话，Volley在具体请求的时候，使用HurlStack/HclientStack来封装HttpUrlConnection/HttpClient，但它也支持接入别的封装库，比如接入OkHttp，所以它相当于既有自己的Http请求/响应的封装，又有比OkHttp更加上层的封装功能；另外它还封装了一些图片加载的api。所以下图展示了Volley和OkHttp关于封装层次的示意图：
+![OkHttp横向对比图](/assets/okhttp-0.png)
+Volley之所以不如OkHttp强大，是因为它设计之初就是为了专用于Android端的小而大量的网络请求，所以它不能post大量数据、不能适应所有的网络请求；并且功能上也不如OkHttp单一。相应的，谈到OkHttp的优点（当然也就是优于其他框架的点），大概可以总结为如下几点：
+
+- 协议支持丰富：支持http、spdy（不过后来应该被http2所取代了）、http2、websocket协议
+- 高性能：
+    - 高性能IO（基于Okio）
+    - Http2等协议的支持（Http2本身就体现了高性能，Socket共享等）
+    - 连接复用机制、缓存机制（包括磁盘缓存和Http缓存策略的实现）
+    - GZIP支持
+- 高可用：同步、异步支持；扩展方便等。
+
+所以其实觉得，研读OkHttp，了解它好在哪儿、高效在哪儿，应该包括3个部分：IO、协议、Java封装。本篇文章当然只是总结了最简单的部分：Java封装部分。希望以后有时间学习和总结前两部分。
+
+本文主要概要性地总结了如下几点：
+- 拦截器和总体流程
+- Dispatcher:异步请求管理
+- ConnectionPool机制：复用连接池和Connection自动回收
+- Cache & CacheStrategy：缓存策略
+
+更加详细的内容可以参考References部分。
+
 # 拦截器和总体流程
 
 OkHttp引入了拦截器机制，将一次网络请求的过程，转换为一个拦截器链的持续执行。让一个网络请求的过程既分工明确，又赋予开发者方便的定制和处理的能力。  
