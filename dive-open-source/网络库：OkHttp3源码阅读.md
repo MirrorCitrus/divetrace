@@ -62,7 +62,8 @@ OkHttp把用户的拦截器放在默认拦截器之前，默认拦截器链的�
   最后一层，进行Http流的读写和解析（也可以认为是序列化和反序列化）。借助于HttpCodec.writeRequestHeaders..等方法和Sink/Source实现。
 
 # Dispatcher：异步请求管理
-使用`Call.enqueue(Callback responseCallback)`就是入队了一个异步请求，异步请求的管理全部是交由Dispatcher来做的。当我们将一个Call入队时，其实是转而enqueue到了Dispather中，如下代码：
+我们知道，使用`Call.enqueue(Callback responseCallback)`就是入队了一个异步请求，OkHttp中异步请求的管理是由Dispatcher来负责的。即：Dispatcher负责创建连接所需的线程池、并保证同时执行的线程数保持在一定限制内，超限的请求会排队等待。
+具体来讲：当我们将一个Call入队时，其实是转而enqueue到了Dispather中，如下代码：
 ```
 @Override 
 public void enqueue(Callback responseCallback) {
@@ -74,7 +75,7 @@ Dispatcher当中构建了一个线程池，以执行入队的request。
 executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,
           new SynchronousQueue<Runnable>(), Util.threadFactory("OkHttp Dispatcher", false));
 ```
-Dispatcher内部实现了"懒加载无边界限制的线程池"方式，即这个线程池的前两个参数：corePoolSize=0, maxCorePoolSize = Integer.Max_value。这意味着，线程池可以根据任务数无限增加线程数量；同时并不保证最小的线程数。当线程空闲超过alive时间（60s）后，就会回收线程。
+Dispatcher内部使用了"懒加载无边界限制的线程池"方式，即这个线程池的前两个参数：corePoolSize=0, maxCorePoolSize = Integer.Max_value。这意味着，线程池可以根据任务数无限增加线程数量；同时并不保证最小的线程数。当线程空闲超过alive时间（60s）后，就会回收线程。
 不保留最小线程数好理解，为什么不限制最大线程数呢？实际上，Dispatcher本身进行了限制：同一时间进行的所有请求不可以超过64个，同一个host的请求不可以超过5个。每个AsyncCall在真正enqueue之前都会做这个条件的检测，如果超出限制，将进入readyAsyncCalls里面排队等待；而一旦有AsyncCall完成之后，会调用`client.dispatcher().finished(call)`，这个方法除了将已经结束的call从running队列中移除之外，还会调用`promoteCalls()`方法，负责将ready队列中可以执行的Call再放入线程池。
 
 # ConnectionPool机制：复用连接池和Connection自动回收
@@ -130,7 +131,8 @@ public final class ConnectionPool {
 * ConnectionPool的get/put API
 
 既然是Pool，最重要的两个API自然就是get和put了。在StreamAllocation方法中，我们首先尝试从ConnectionPool中获取一个可复用的Connection，如果有，则直接返回；如果没有再创建，创建好之后，需要put到Pool中供复用。  
-值得一提的时，外部并不是直接通过ConnectionPool.get/put方法来操作的，而是通过Internal类的get/put方法，这两个方法其实就是对ConnectionPool.get/put方法做了一层包装，主要是为了让外部包的成员访问非public方法。
+值得一提的时，外部并不是直接通过ConnectionPool.get/put方法来操作的，而是通过Internal类的get/put方法，这两个方法其实就是对ConnectionPool.get/put方法做了一层包装，有兴趣的可以看看这部分的代码，这种调用方式挺有意思的。个人理解，这么做的原因是这样的：OkHttp采用的是门面模式，大多数重要的操作都要进入OkHttpClient类中去调用，但是如果直接在OkHttpClient中写一个public的get方法，外部又必须知道OkHttpClient的实例，对调用者来说可能并不顺畅。所以Internal类是为了外部访问的时候，不知道自己经过了OkHttpClient类。也有一种说法是这样做是为了访问ConnectionPool的非public方法，但是本人会疑惑为什么不直接写成public方法供外部访问，希望以后可以找到答案。
+回到查找Connection的过程，代码是这样的：
 
 ```
 /**
