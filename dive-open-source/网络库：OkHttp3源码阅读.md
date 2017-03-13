@@ -199,7 +199,7 @@ Http的缓存策略主要是通过几个重要的头部实现的，大概包括�
 - no-cache
 - only-if-cached
 
-OkHttp中，关于缓存的实现类是CacheStrategy.Factory。主要是通过实现上述逻辑。CacheStrategy很容易让人感觉是一个“策略”类，其实它更接近于一个结构体。
+OkHttp中，关于缓存的实现类是CacheStrategy.Factory。主要是通过实现上述逻辑。CacheStrategy很容易让人感觉是一个“策略”类，其实它更接近于一个结构体。这就好理解HTTP的缓存策略的实现，是由CacheStrategy.Factory负责的。 在`CacheInterceptor`中，首先从Cache中获取已经缓存的response，然后将原始的请求`request`和`cacheResponse`传递给Factory，它会根据前述的策略（主要是头部解析和处理），判定缓存是否可用：如果可用，则将这里的`cacheResponse`封装在CacheStrategy中返回；如果不可用，需要请求，则对原始的request进行可能的修改（主要是条件get参数），作为`networkRequest`封装在CacheStrategy中返回。总之代码很简单，看了就懂。
 
 # References
 
