@@ -1,16 +1,43 @@
 # OverView
 
 记录一些WalkThrough的简单内容和总结。
-标签分类：
-- 编程艺术/架构思考/方法论：MVP/MVVM
-- CS基础：
-- Android知识：recyclerView
-- 流行技能：单元测试；Dagger；Kotlin；自定义Lint； LeakCanary
-- 其他
 
-# 9) javaagent
+# 9) Android AOP相关技术
 
-- [ ] [JavaAgent原理](http://mp.weixin.qq.com/s/OljF6c8OpkctU5O4Vvf-2A)
+## javaagent（java Instrumentation机制）
+javaagent技术可以使我们在JVM加载class文件前对字节码作出修改。概括来讲，就是需要我们实现一个javaagent类（实现对字节码进行修改的方法），然后将该类以jar包形式输出，再在jvm中加载这个类。
+由于javaagent技术对字节码修改时，利用的是Instrumentation.addTransformer方法，且java的instrumentation机制的本意也是通过agent来对java进程进行监控和协助。因此javaagent技术和java instrumentation技术应该是同一个意思
+
+- 加载javaagent类
+两种方法，一种是命令行方式添加，这种是jvm启动时就加载了，例如：`java -javaagent:/path/to/myagent.jar -jar myapp.jar
+`
+另一种是代码方式添加，这种属于jvm启动后的动态加载
+
+- 实现javaagent
+实现javaagent的premain或者agentmain方法，其中，方法的参数Instumentation很重要，它的addTransformer可以添加一个对字节码进行转换的对象。
+
+基于上述方法，可以编写插件修改apk构建过程，进行字节码插入。大概的原理是这样的：应用构建过程中会启动一个dex任务，这个任务相当于在命令行执行了这样的命令：`java dx.jar com.android.dx.command.Main --dex --num-threads=4 —-output output.jar input.jar`,即启动一个java进程执行dx.jar的Main方法，这个方法本身就是把字节码打包成dex文件的，所以能找到字节码的hook点。我们通过命令行方式，给dx.jar添加javaagent，在hook点上获取字节码，再进一步修改这些类的字节码。
+后来gradle plugin在1.5.0之后提供了Transform API，允许第三方插件修改Android应用的class文件了，大约流行的字节码插入的实现都是基于这个TransformAPI的。
+
+## 字节码操纵技术
+
+### ASM
+ASM是一个java字节码操纵框架，它能被用来动态生成类或者增强既有类的功能。ASM与javassist相比，更贴近底层，较难使用但是效率更高。
+ASM API按照visitor模式按照class文件结构依次访问class文件的每一部分。包括：ClassVisitor, MethodVisitor, FieldVisitor
+
+- ClassVisitor
+    - visit: 访问class类名，父类名，实现的接口等信息
+    - visitField
+    - visitMethod
+- MethodVisitor
+    - visitAnnotationDefault
+    - visitCode: 访问方法体内的方法
+    - visitLocalVariable
+    - visitXxxInsn: 访问字节码指令（IADD, ARETURN...）
+
+#### 参考
+- [x] [JavaAgent使用](http://mp.weixin.qq.com/s/OljF6c8OpkctU5O4Vvf-2A)
+- [x] [Android AOP之字节码插桩详解](http://www.yidianzixun.com/article/0FfQmNlM?share_count=2&from=groupmessage)
 
 # 8) Dagger
 #### Module和Component
