@@ -8,6 +8,9 @@
 - 流行技能：单元测试；Dagger；Kotlin；自定义Lint； LeakCanary
 - 其他
 
+# 9) javaagent
+
+- [ ] [JavaAgent原理](http://mp.weixin.qq.com/s/OljF6c8OpkctU5O4Vvf-2A)
 
 # 8) Dagger
 #### Module和Component
@@ -79,7 +82,9 @@ public class LoginActivity extends AppCompatActivity {
 # 7) MVP/MVVM设计模式
 
 #### 参考
-- [ ] [目录](https://github.com/ChrisZou/android-unit-testing-tutorial)
+
+- [x] [Android MVP详解（上）](http://www.jianshu.com/p/9a6845b26856)
+- [ ] [Android MVP架构必要知识](https://zhuanlan.zhihu.com/p/25272412)
 
 
 # 6) 单元测试框架
