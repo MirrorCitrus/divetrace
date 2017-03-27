@@ -2,6 +2,11 @@
 
 记录一些WalkThrough的简单内容和总结。
 
+# 10) APK打包过程
+
+#### 参考
+- [ ] [自己动手生成Android Apk](http://blog.csdn.net/chenkai19920410/article/details/60589100)
+
 # 9) Android AOP相关技术
 
 ## javaagent（java Instrumentation机制）
