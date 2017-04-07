@@ -2,6 +2,26 @@
 
 记录一些WalkThrough的简单内容和总结。
 
+# 11) ConstraintsLayout
+ConstraintsLayout是AndroidStudio2.2的新增功能之一，也是Google IO 大会上重点宣传的一个功能，特点是使用约束关系来指定控件的位置和大小，类似于更强大的RelativeLayout。结合AS的可视化操作，操作非常方便，不需要编写xml了。优点：布局规则更强，有效的减少布局嵌套。
+
+要点：
+
+- 约束系统：ConstraintsLayout的布局引擎 使用约束系统来约束控件的大小和位置
+- Inspector: IDE提供给开发者进行布局的工具
+- Handle的类型：
+     - Resize Handle
+     - Side Constraints Handle
+     - Baseline Constraints Handle
+- 创建约束的方式：
+     - 手动创建约束
+     - AutoConnect创建约束
+     - Inference创建约束
+
+#### 参考
+- [ ] [代码实验室--带你一步步理解使用 ConstraintLayout](http://www.jianshu.com/p/793f76cf9fea)
+- [ ] [Android新特性介绍，ConstraintLayout完全解析](http://blog.csdn.net/guolin_blog/article/details/53122387)
+
 # 10) APK打包过程
 
 #### 参考
