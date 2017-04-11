@@ -205,9 +205,7 @@ return skinResource;
 
 
 # 参考：
-- [x] [Android Resource walkthrough
-](https://zhuanlan.zhihu.com/p/22864155)
+- [x] [Android Resource walkthrough](https://zhuanlan.zhihu.com/p/22864155)
 
-- [x] [Android插件化探索（二）资源加载
-](http://www.maplejaw.com/2016/05/26/Android%E6%8F%92%E4%BB%B6%E5%8C%96%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%BA%8C%EF%BC%89%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/)
+- [x] [Android插件化探索（二）资源加载](http://www.maplejaw.com/2016/05/26/Android%E6%8F%92%E4%BB%B6%E5%8C%96%E6%8E%A2%E7%B4%A2%EF%BC%88%E4%BA%8C%EF%BC%89%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/)
 
