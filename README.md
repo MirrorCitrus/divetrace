@@ -11,10 +11,12 @@
   * [DataBinding](dive-open-source/Android的MVVM设计模式：DataBindingLibrary原理分析.md)
   * [OkHttp](dive-open-source/OkHttp（一）：使用篇.md)
 * [Framework](framework/README.md)
+  * [Android资源加载机制]()
+  * [Android消息循环机制: Handler, MessageQueue， Message和Looper]()
 * [Test&Performance](test_performance/README.md)
 * [CodingArt](coding-art/README.md)
   * [设计模式](coding-art/设计模式.md)
-  * [MVP设计模式-](coding-art/架构思考.md)
+  * [MVP设计模式](coding-art/架构思考.md)
 
 
 
