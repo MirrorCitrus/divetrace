@@ -2,6 +2,48 @@
 
 记录一些WalkThrough的简单内容和总结。
 
+# 12) Glide
+#### 快速使用：
+
+```
+Glide.with(this).load(url).into(imageView);
+```
+#### API详解
+
+- 基础三步
+    - `Glide.with():RequestManager` : 传入不同的context创建图片加载实例
+        - Activity/Fragment/Application的context，内部根据具体context的生命周期处理加载的策略 
+    - `load():DrawableTypeRequest<T>` : 加载图片
+        - 加载本地图片: load(imgFile)
+        - 加载应用程序资源: load(R.drawable.xxx)
+        - 加载二进制流: load(imgByteArray)
+        - 加载uri: load(imgUri)
+    - `into():Target<T>` : 指定展示目标
+        - into(imageView) 
+- 占位图
+    - `placeHolder(R.drawable.xxx):DrawableRequestBuilder<T>`
+    - `error(R.drawable.xxx):DrawableRequestBuilder<T>`
+- 缓存设置
+    - `diskCacheStrategy(...)`: 设置缓存策略
+        - `Strategy.ALL` : 
+        - `Strategy.NONE` : 
+        - `Strategy.SOURCE` : 
+        - `Strategy.RESULT` : 
+- 指定图片格式
+    - `asBitmap()`
+    - `asGif()`
+- 指定尺寸
+    - 默认自适应ImageView的大小
+    - `override(100,100)`
+
+#### 参考
+
+- [ ] [github](https://github.com/bumptech/glide)
+- [x] [Android图片加载框架最全解析（一），Glide的基本用法](http://blog.csdn.net/guolin_blog/article/details/53759439)
+- [ ] [ Android图片加载框架最全解析（二），从源码的角度理解Glide的执行流程](http://blog.csdn.net/guolin_blog/article/details/53939176)
+- [ ] [Google推荐的图片加载库Glide介绍](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0327/2650.html)
+
+
 # 11) ConstraintsLayout
 ConstraintsLayout是AndroidStudio2.2的新增功能之一，也是Google IO 大会上重点宣传的一个功能，特点是使用约束关系来指定控件的位置和大小，类似于更强大的RelativeLayout。结合AS的可视化操作，操作非常方便，不需要编写xml了。优点：布局规则更强，有效的减少布局嵌套。
 
