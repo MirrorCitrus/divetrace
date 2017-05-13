@@ -17,6 +17,7 @@
 * [CodingArt](coding-art/README.md)
   * [设计模式](coding-art/设计模式.md)
   * [MVP设计模式](coding-art/架构思考.md)
+* [miscellaneous](othrers/git备忘.md)
 
 
 
