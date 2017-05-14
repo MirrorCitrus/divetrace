@@ -204,7 +204,7 @@ public class RequestManager implements LifecycleListener {
 ```
 可见，最终都是调用了`loadGeneric()`方法，根据不同的class类型，返回`DrawableTypeRequest<T>`的实例。这个类的最父类是`GenericRequestBuilder`, 这是Glide中进行图片加载和加载设置的基类。Glide的大多数的设置API其实就是这个类的API。而整个继承树也是比较庞大：
 
-![图片](http://note.youdao.com/favicon.ico)
+![Glide的requestBuilder系统类图](/assets/Glide的requestBuilder系统类图.png)
 
 得到`DrawableTypeRequest`的实例后，load方法其实尤其简单：
 
