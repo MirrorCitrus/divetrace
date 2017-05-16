@@ -1,5 +1,4 @@
-#
-概述
+# 概述
 
 > The core API is small, predictable, and easy to learn and yet remains open for customization. Espresso tests state expectations, interactions, and assertions clearly without the distraction of boilerplate content, custom infrastructure, or messy implementation details getting in the way.
 
