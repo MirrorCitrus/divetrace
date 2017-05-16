@@ -15,6 +15,7 @@
   * [Android资源加载机制](framework/Android资源加载机制.md)
   * [Android消息循环机制: Handler, MessageQueue, Message和Looper](framework/Android消息循环机制.md)
 * [Test&Performance](test_performance/README.md)
+  * [Espresso](test_performance/espresso.md)
 * [CodingArt](coding-art/README.md)
   * [设计模式](coding-art/设计模式.md)
   * [MVP设计模式](coding-art/架构思考.md)
