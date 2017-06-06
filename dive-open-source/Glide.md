@@ -35,7 +35,7 @@ Glide.with(this).load(url).into(imageView);
     - 默认自适应ImageView的大小
     - `override(100,100)`
 
-# 源码解析
+# 枯燥无味的源码解析
 
 ## with()
 
