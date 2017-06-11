@@ -1,4 +1,5 @@
-# 概述
+# RxJava（1）：基础使用篇
+## 概述
 > RxJava is a Java VM implementation of ReactiveX (Reactive Extensions): a library for composing asynchronous and event-based programs by using observable sequences.
 
 - RxJava是什么？
@@ -11,9 +12,7 @@
 3.便于复杂的交互逻辑编写
 
 
-# API介绍和原理解析
-
-## 概念
+## API介绍和原理解析
 
 ### RxJava的观察者模式
 RxJava的观察者模式的组成：
@@ -198,7 +197,7 @@ Observable.from(students) // 输入类型：Student[]
     });
 ```
 
-# References
+## References
 
 - [ ] [Awesome-RxJava GitHub：RxJava学习资料总结](https://github.com/lzyzsd/Awesome-RxJava)
 - [x] [给Android开发者的RxJava详解](https://gank.io/post/560e15be2dca930e00da1083#toc_3)
