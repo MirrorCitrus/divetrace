@@ -11,7 +11,7 @@
   * [DataBinding](dive-open-source/Android的MVVM设计模式：DataBindingLibrary原理分析.md)
   * [OkHttp](dive-open-source/OkHttp（一）：使用篇.md)
   * [Glide](dive-open-source/Glide.md)
-  * [RxJava](dive-open-source/RxJava.md)
+  * [RxJava](dive-open-source/RxJava1.md)
 * [Framework](framework/README.md)
   * [Android资源加载机制](framework/Android资源加载机制.md)
   * [Android消息循环机制: Handler, MessageQueue, Message和Looper](framework/Android消息循环机制.md)
