@@ -3,10 +3,13 @@
 > RxJava is a Java VM implementation of ReactiveX (Reactive Extensions): a library for composing asynchronous and event-based programs by using observable sequences.
 
 - RxJava是什么？
+
 是一个Java实现的响应式编程库。
 
 - RxJava的优点？
+
 响应式的编程方式，简洁、清晰。也可以具体体现在如下3个方面：
+
 1.解决异步嵌套问题
 2.错误处理的嵌套问题
 3.便于复杂的交互逻辑编写
@@ -16,6 +19,7 @@
 
 ### RxJava的观察者模式
 RxJava的观察者模式的组成：
+
 - 被观察者：`Observable` 
 - 观察者：`Observer` 
 - 订阅：`subscribe()`
@@ -23,6 +27,7 @@ RxJava的观察者模式的组成：
 
 ### 基本实现
 先看一个最简单的例子：这里将一个字符串数组中的内容依次添加“Hello”然后打印出来。
+
 ```
 Observable.from(names).subscribe(new Action1<String>() {
     @Override
@@ -31,13 +36,16 @@ Observable.from(names).subscribe(new Action1<String>() {
     }
 });
 ```
+
 使用Lambda表达式，更加简洁：
+
 ```
 Observable.from(names).subscribe((Action1) (s) -> {
         Log.v(TAG, "Hello " + s + "!");
     }
 });
 ```
+
 在这个例子中，我们做了三件事：
 
 - 构建被观察者Observable。包括：指定被观察对象的类型、指定被订阅时要做什么。
@@ -60,11 +68,13 @@ Observable.create(new Observable.OnSubscribe<String>() {
     }
 });
 ```
+
 这段代码的意思是：一旦被订阅，我们就把一个String类型的对象“world”，通过onNext()方法发送给Observer，同时发送onCompleted方法，表示事件序列结束。可见这是Observable最简单最常用的行为，因此RxJava帮我们做了封装，我们可以用下面的代码来代替上面的代码：
 
 ```
 Observable<String> observable = Observable.just("world");
 ```
+
 如果我们要包装多个String，可以有如下两种写法：
 
 ```
@@ -79,6 +89,7 @@ Observable<String> observable = Observable.from(new String[] {"world", "haha"});
 #### 2) 构建Observer
 
 构建Observer需要做两件事：指定观察对象的类型、指定收到订阅的事件之后要做什么。我们需要这样创建：
+
 ```
 Observer<String> observer = new Observer<String>() {
     @Override
@@ -97,7 +108,9 @@ Observer<String> observer = new Observer<String>() {
     }
 };
 ```
+
 而通常，我们只关心onNext事件，所以这里我们可以使用一个快捷类`Action1`，来指定onNext的行为：
+
 ```
 Action1 action = new Action1<String>() {
     @Override
@@ -121,6 +134,7 @@ Action1 action = (Action1) (s) -> { Log.v(TAG, "Hello " + s + "!"); };
 #### 3) 完成订阅动作
 
 超简单，调用Observable.subscribe方法即可。这个方法其实相当于做了如下三件事（精简的代码）:
+
 ```
 public Subscription subscribe(Subscriber subscriber) {
     subscriber.onStart();
@@ -142,6 +156,7 @@ RxJava已经内置了几个Scheduler，它们已经适合大多数的使用场�
 - `AndroidSchedulers.mainThread()`: Android中的主线程。
 
 有了这些调度器之后，我们就可以方便地指定线程了：
+
 - `subscribeOn()`: 指定subscribe()方法调用后（被订阅时），被观察者发送事件的线程。即：`Observable.OnSubscribe<T>`的`call`方法执行的线程。
 - `observeOn()`: 指定观察者收到事件后，处理的线程。即：onNext的线程
 
@@ -177,7 +192,9 @@ Observable.just("images/logo.png") // 输入类型 String
 ```
 
 和map相对应，flatMap要解决的是事件对象的一对多转换的问题。举例，我们有个Student类型的数据结构，Student有一个`courses:List<Course>`这样的成员变量，如果我们要将每一门课程和学生的对应关系依次打印出来，最优雅的做法是什么呢？
+
 如果说，我们把每个Student作为一个被观察者，我们期望每个这样的事件可以转化为多个Course事件发出来。回顾我们之前提到的`Observable.from()`方法，我们可以有一种`Observable<R>`对象，它会发送多个`onNext(R)`事件后才结束。那么这个问题就可以变成：我们需要一种映射，将T转换为一个可以发送多个事件的`Observable<R>`。
+
 这就是flatMap，取名为“平铺”，也是比较形象的。下面是一个flatMap的例子：
 
 ```
