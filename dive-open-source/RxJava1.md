@@ -185,9 +185,15 @@ RxJava已经内置了几个Scheduler，它们已经适合大多数的使用场�
     - `first()`:
     - `last()`:
 - 组合类操作符
-- `compose`: 将针对一个Observable的多个变换封装起来，成为一个Transformer，后续使用compose方法来应用这个Transformer，目标：一次性应用多个变换、且该变换序列可复用。
-
-// TODO 补充操作符
+    - `merge(Observable, Observable)`: 将多个事件序列合并成一个（合并后无序）
+    - `startWitch(T)`: 在一个事件序列前插入数据
+    - `concat(Observable, Observable)`: 将两个事件序列合并成一个，合并后保证前一个事件序列结束后开始发送第二个事件
+    - `zip(Observable, Observable, Func1)`: 将两个事件按照一定公式结合成一个新的被观察对象发出。
+    - `combineLatest`: (暂不做了解)
+    - `switchOnNext`: (暂不做了解)
+    - `join`: (暂不做了解)
+- 操作符组合与复用 
+    - `compose`: 将针对一个Observable的多个变换封装起来，成为一个Transformer，后续使用compose方法来应用这个Transformer，目标：一次性应用多个变换、且该变换序列可复用。
 
 ### map和flatMap
 
