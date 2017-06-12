@@ -238,6 +238,30 @@ Observable.from(students) // 输入类型：Student[]
     });
 ```
 
+
+### 操作符组合compose
+
+`compose`操作符是对多个操作符的组合，以便一系列的转换可以封装器来复用。具体来讲，我们将一个被观察对象`Observable<T>`经过一系列操作符转换后，形成一个`Observable<R>`，我们将这一系列的操作符封装成一个`Transformer<T, R>`,实现它的`call(Observable<T>):Observable<R>`方法。后续，使用`compose`方法直接应用这个Transformer即可。举例：
+
+```
+public class LiftAllTransformer implements Observable.Transformer<Integer, String> {
+    @Override
+    public Observable<String> call(Observable<Integer> observable) {
+        return observable
+            .lift1()
+            .lift2()
+            .lift3()
+            .lift4();
+    }
+}
+
+Transformer liftAll = new LiftAllTransformer();
+observable1.compose(liftAll).subscribe(subscriber1);
+observable2.compose(liftAll).subscribe(subscriber2);
+observable3.compose(liftAll).subscribe(subscriber3);
+observable4.compose(liftAll).subscribe(subscriber4);
+```
+
 ## References
 
 - [ ] [Awesome-RxJava GitHub：RxJava学习资料总结](https://github.com/lzyzsd/Awesome-RxJava)
