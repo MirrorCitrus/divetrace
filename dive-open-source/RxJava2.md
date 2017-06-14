@@ -342,6 +342,16 @@ public abstract class Scheduler {
 
 结构很简单，Scheduler最重要的方法就是createWorker()，创建一个Worker对象；Worker对象有一个schedule(Action0)方法，执行真正的线程调度。
 
+// TODO
+
+#### Schedulers.io()
+
+#### Schedulers.newThread()
+
+#### Schedulers.computation()
+
+#### AndroidSchedulers.mainThread()
+
 
 ## References
 
