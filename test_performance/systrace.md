@@ -30,8 +30,8 @@
 右侧有一行写有F的圈圈，表示每个Frame的综合评价。如果是绿色，表示这一帧的渲染是ok的。如果是红色或者黄色，表示渲染超时了。
 点击这个F圆圈，在下部的窗口中会展示一些详细信息。如果这一帧的渲染没有任何问题，下面的内容是空的；如果这一帧有问题，会展示Alert信息（我们稍后详细讨论Alert）。
 
-![image](http://note.youdao.com/favicon.ico)
-> TODO 插图：Systrace的界面概览和F标记
+![Systrace的界面概览和F标记](/assets/systrace1.png)
+> 图：Systrace的界面概览和F标记
 
 ![image](http://note.youdao.com/favicon.ico)
 > TODO 插图：观察有性能问题的Frame的提示信息 
