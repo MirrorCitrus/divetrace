@@ -75,9 +75,16 @@ Systrace会对trace中的一些事件执行自动分析，然后将一些性能�
 
 下一节我们进一步介绍，如何在代码中添加Systrace的Mark。
 
-### 举例：一些Alert信息的例子
+### 举例：一些Alert信息
 
-> TODO 
+这里列举一些常见的Alert信息：
+
+- Scheduling delay
+- Expensive measure/layout pass
+- Expensive Bitmap uploads
+- Inefficient ListView recycling/rebinding
+- Inflation during ListView recycling
+- Long View#draw()
 
 ## 从代码中追踪性能问题
 
