@@ -56,8 +56,8 @@
     - flushDrawingCommands
     - eglSwapBuffersWithDamageKHR
 
-
-> TODO: 添加图示，并附上部分解释
+![一帧的耗时](/assets/systrace4.png)
+> 图：一帧的耗时
 
 ## 分析Alert的信息
 
