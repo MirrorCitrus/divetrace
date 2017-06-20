@@ -33,13 +33,13 @@
 ![Systrace的界面概览和F标记](/assets/systrace1.png)
 > 图：Systrace的界面概览和F标记
 
-![image](http://note.youdao.com/favicon.ico)
-> TODO 插图：观察有性能问题的Frame的提示信息 
+![观察有性能问题的Frame的提示信息](/assets/systrace2.png)
+> 图：观察有性能问题的Frame的提示信息 
 
 点击其中的一个方块，可以使这一段耗时高亮，在下面会展示出详细的耗时信息。
 
-![image](http://note.youdao.com/favicon.ico)
-> TODO：添加图示和解释
+![详细](/assets/systrace3.png)
+> 图：选中的Slice的详细耗时信息
 
 ### 举例：一个Frame的耗时信息详解
 
@@ -56,7 +56,7 @@
     - flushDrawingCommands
     - eglSwapBuffersWithDamageKHR
 
-![image](http://note.youdao.com/favicon.ico)
+![](/assets/systrace2.png)
 > TODO: 添加图示，并附上部分解释
 
 ## 分析Alert的信息
