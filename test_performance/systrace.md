@@ -56,7 +56,7 @@
     - flushDrawingCommands
     - eglSwapBuffersWithDamageKHR
 
-![](/assets/systrace2.png)
+
 > TODO: 添加图示，并附上部分解释
 
 ## 分析Alert的信息
