@@ -10,9 +10,13 @@
 
 ### 启动trace并记录
 
+可以使用DDMS进行记录：
+
 - Tools -> Android -> Android Device Monitor
 - 选择app，点击Systrace按钮
-- 设置保存的文件路径、监控的时间、监控的内容等，开始
+- 设置保存的文件路径、监控的时间、监控的内容等，开始记录
+
+也可以使用命令行进行记录，参考：[Systrace Command Reference](https://developer.android.com/studio/profile/systrace-commandline.html)
 
 ## Systrace的分析
 
@@ -63,11 +67,9 @@
 
 Systrace会对trace中的一些事件执行自动分析，然后将一些性能问题以Alert形式标出，并给出一定的建议。前面已经提到，在有性能问题的Frame上点击，会在下方的详情中展示Alert，点击Alert项，会给出详细的耗时信息、相关描述，有的还会给出链接，链到指定的trace块中。
 
-![image](http://note.youdao.com/favicon.ico)
-
-> TODO 插图
-
 另外，右侧有一个Alert的tab页，会把此次trace中所有的Alert信息列举出来。点击其中一个Alert，对应的F圈会高亮，从而可以定位到有问题性能的帧。
+
+![Alerts tab](/assets/systrace5.png)
 
 发生Alert之后，可能我们已有的信息还不足以解决这些性能问题。此时，我们可以考虑先使用TraceView来定位耗时较长的方法，然后针对这些有问题的方法，在代码中添加Mark后，再执行Systrace进行确认和进一步的分析。（注意：TraceView本身有一定的性能损耗，会导致得出的结果和实际有较大出入，所以不建议使用TraceView取代Systrace，而是使用它作为查找问题的一个辅助工具）。
 
@@ -75,11 +77,13 @@ Systrace会对trace中的一些事件执行自动分析，然后将一些性能�
 
 ### 举例：一些Alert信息的例子
 
+> TODO 
+
 ## 从代码中追踪性能问题
 
 从Android 4.3（API 18）开始，使用`Trace`类，可以在代码中添加更加详细的标记。使用`Trace.beginSection(String)`开始一段追踪，使用`Trace.endSection()`结束最近的一次追踪。
 
-下面是一段示例代码：
+下面是官方说明里面摘抄的一段示例代码：
 
 ```
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
