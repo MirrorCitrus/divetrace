@@ -155,6 +155,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 }
 ```
 
+
 添加之后，我们就可以在抓到的trace中看到对应的耗时，非常方便。
 
 ![添加自定义的mark](/assets/systrace6.png)
