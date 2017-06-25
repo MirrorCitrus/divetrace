@@ -1,14 +1,22 @@
 # Systrace的使用和分析
+## 概述
+
+Systrace是分析Android性能问题的神器，Google IO 2017上更是对其各种强推。Systrace其实和TraceView很像，都是统计一些方法（或者是一个执行阶段）的耗时，然后在一个有时间轴的图表上展示出来。不同的是，TraceView是收集所有方法的耗时信息和嵌套关系，这使得TraceView本身的性能消耗很大，反而影响了实际的运行环境。Systrace则采用了不同的思路，通过有限的Label先粗略统计出一个阶段的耗时，定位到问题以后，在慢慢细化和进一步测算分析。
+
+摘抄一段Systrace的原理描述：
+> 在介绍使用之前，先简单说明一下Systrace的原理：它的思想很朴素，在系统的一些关键链路（比如System Service，虚拟机，Binder驱动）插入一些信息（我这里称之为Label），通过Label的开始和结束来确定某个核心过程的执行时间，然后把这些Label信息收集起来得到系统关键路径的运行时间信息，进而得到整个系统的运行性能信息。Android Framework里面一些重要的模块都插入了Label信息（Java层的通过android.os.Trace类完成，native层通过ATrace宏完成），用户App中可以添加自定义的Label，这样就组成了一个完成的性能分析系统。
+
+另一方面，系统的渲染的关键步骤都有framework预置的label，Systrace又提供了非常适合观察系统的UI性能/流畅度的功能，所以Systrace也是分析UI性能的神器。
 
 ## 使用
 
-### 环境条件
+#### 环境条件
 
 - Android SDK Tools 20
 - 安装的python并添加了环境变量
 - Android 4.1以上的手机
 
-### 启动trace并记录
+#### 启动trace并记录
 
 可以使用DDMS进行记录：
 
@@ -17,6 +25,24 @@
 - 设置保存的文件路径、监控的时间、监控的内容等，开始记录
 
 也可以使用命令行进行记录，参考：[Systrace Command Reference](https://developer.android.com/studio/profile/systrace-commandline.html)
+
+#### 结果的展现
+
+不论是DDMS还是命令行，最终都会保存一个html文件，用chrome浏览器打开，即可进行分析。
+
+#### 常用标签
+
+不论是DDMS还是命令行，都可以在启动trace前指定采集哪些系统预置的标签。下面把一些常用的标签类别列举如下：
+
+- `Graphics`: Graphic系统的相关信息，包括SerfaceFlinger，VSYNC消息，Texture，RenderThread等；分析卡顿非常有效。
+- `Input`:
+- `View System`: View绘制系统的相关信息，比如onMeasure，onLayout等；对分析卡顿比较有帮助。
+- `Window Manager`:
+- `Activity Manager`: ActivityManager调用的相关信息；用来分析Activity的启动过程比较有效。
+- `Application`:
+- `Resource Loading`:
+- `Dalvik VM`:  虚拟机相关信息，比如GC停顿等。
+- `CPU Scheduling`: CPU调度的信息；你能看到CPU在每个时间段在运行什么线程；线程调度情况，比如锁信息。
 
 ## Systrace的分析
 
@@ -138,3 +164,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
 - [x] [性能工具Systrace的使用](http://gityuan.com/2016/01/17/systrace/)
 - [x] [Analyzing UI Performance with Systrace](https://developer.android.com/studio/profile/systrace.html#app-trace)
+- [x] [手把手教你使用Systrace（一）](https://zhuanlan.zhihu.com/p/27331842)
+- [ ] [手把手教你使用Systrace（二）——锁优化](https://zhuanlan.zhihu.com/p/27535205?group_id=861682866420072448)
