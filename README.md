@@ -21,6 +21,7 @@
 * [CodingArt](coding-art/README.md)
   * [设计模式](coding-art/设计模式.md)
   * [MVP设计模式](coding-art/架构思考.md)
+  * [Flux & Redux](coding-art/Redux.md)
 * [miscellaneous](others/README.md)
   * [git备忘](others/git备忘.md)
 
