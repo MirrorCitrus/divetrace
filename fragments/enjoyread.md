@@ -228,7 +228,9 @@ Android Lint是Google提供给Android开发者的静态代码检查工具。为�
 
 创建Detector的同时，还需要创建对应的Issue，一个Issue将对应lint上报的信息展示。最后需要注册Issue。
 ##### 参考
-- [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
+- [ ] [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
+- [ ] [官方指南：使用 Lint 改进您的代码](https://developer.android.com/studio/write/lint.html?hl=zh-cn#manuallyRunInspections)
+- [ ] [Building Custom Lint Checks in Android](https://www.bignerdranch.com/blog/building-custom-lint-checks-in-android/)
 
 # #4) LeakCanary
 LeakCanary.install()返回一个RefWatcher，用它监测某个对象时，会强制触发一次gc，再根据这个对象是否被回收判定是否有泄露。至于如何判定是否被回收，则是利用了WeakReference的一个特性：它指向的对象被回收时，引用会暂时存放在构建WeakReference的一个Queue中，查询该Queue即可判定是否被回收。
