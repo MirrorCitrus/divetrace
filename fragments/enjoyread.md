@@ -228,7 +228,7 @@ Android Lint是Google提供给Android开发者的静态代码检查工具。为�
 
 创建Detector的同时，还需要创建对应的Issue，一个Issue将对应lint上报的信息展示。最后需要注册Issue。
 ##### 参考
-- [ ] [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
+- [x] [Android自定义Lint实践](http://tech.meituan.com/android_custom_lint.html)
 - [ ] [官方指南：使用 Lint 改进您的代码](https://developer.android.com/studio/write/lint.html?hl=zh-cn#manuallyRunInspections)
 - [ ] [Building Custom Lint Checks in Android](https://www.bignerdranch.com/blog/building-custom-lint-checks-in-android/)
 
