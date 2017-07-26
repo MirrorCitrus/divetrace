@@ -24,15 +24,15 @@
 
 #### 3. native crash捕获步骤
 
-1. 注册信号处理函数
+1) 注册信号处理函数
 
 ```
 #include <signal.h> 
 int sigaction(int signum,const struct sigaction *act,struct sigaction *oldact));
 ```
 
-2. 设置额外栈空间
-3. 兼容其他signal
+2) 设置额外栈空间
+3) 兼容其他signal
 
 #### 4. 堆栈的获取
 
