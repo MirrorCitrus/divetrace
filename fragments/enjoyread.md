@@ -2,6 +2,53 @@
 
 记录一些WalkThrough的简单内容和总结。
 
+# 13) Native崩溃的抓取
+
+#### 1. 现有方案
+
+- Google Breakpad: 跨平台；代码体量大
+- 利用logcat: Android实现；不可靠
+- coffee catch: 简洁、容易改动；兼容性问题
+
+#### 2. 信号机制
+
+- 程序崩溃和信号机制的基本概念
+- 信号机制的过程
+    - a) 内核收到信号后，将信号放入对应的进程的信号队列中，同时向进程发送一个中断，使其陷入内核态
+    - b) 进程陷入内核态后，检测信号，发现有新信号后，进入信号处理过程。其中，检测信号的时机有两个:
+        - 从内核态返回用户态之前
+        - 从睡眠态被唤醒时
+    - c) 处理信号：进程回到用户态，执行信号处理函数。执行完毕后还要回到内核态查看是否有信号待处理。全部处理完毕后，恢复到用户态和中断前的位置继续运行。
+- 常见的信号量
+    
+
+#### 3. native crash捕获步骤
+
+1. 注册信号处理函数
+
+```
+#include <signal.h> 
+int sigaction(int signum,const struct sigaction *act,struct sigaction *oldact));
+```
+
+2. 设置额外栈空间
+3. 兼容其他signal
+
+#### 4. 堆栈的获取
+
+- native堆栈获取
+    - 4.1.1以上，5.0以下： libcorkscrew.so
+    - 5.0以上：libunwind.so
+    - 函数符号获取
+- java堆栈获取
+    - 前提：大多数情况下，crash线程就是捕获到信号的线程，虽然这在SIGABRT下不一定可靠。
+    - 方法：在信号处理函数中获得当前线程的名字，然后把crash线程的名字传给java层，在java里dump出这个线程的堆栈，就是crash所对应的java层堆栈了。
+
+
+#### References
+
+- [x] [Android 平台 Native 代码的崩溃捕获机制及实现](https://mp.weixin.qq.com/s/g-WzYF3wWAljok1XjPoo7w) 
+
 # 12) Glide
 #### 快速使用：
 
