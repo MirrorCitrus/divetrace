@@ -12,11 +12,6 @@ Litho已用于多个Facebook的安卓应用，例如Facebook、Facebook Lite、M
 
 这篇文章只是对Litho做了初步的体验，和原理的简单探究。Litho在制作简单的UI时，利用注解实现编译期代码生成，因此定义组件基本都只需要关注业务，使用起来的感觉还是很不错的。不过实际的复杂开发中，体验好不好，也比较难评判。有兴趣的同学也可以自己尝试一下。
 
-> 关于Litho如何使用，包括这一篇总共有三篇。前两篇基本是对照官方文档的翻译，做个参考。
-[Litho(1) - 上手指南](http://agroup.baidu.com/share/md/a662d02bbb7c48ccb23b02d8e69a770c)
-[Litho(2) - 进阶指南](http://agroup.baidu.com/share/md/677e4bb2e9a44cc1a30be7257326966c)
-[Litho(3) - Litho分析（本篇）](http://agroup.baidu.com/share/md/3bbf4516d35945948a5361480c9c6191)
-
 
 # 组件化
 
@@ -113,8 +108,7 @@ Litho中每个组件都是一个`Component<? extends ComponentLifecycle>`的实�
 
 在我们针对这里的生命周期再进行稍微细致的阐述之前，先了解一下Litho的渲染步骤：
 
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/8947f0c0be413d18abace4f006bd16e431064b12)
-
+![Litho渲染步骤](/assets/litho1.png)
 Android原生的View的渲染步骤包括三步：measure, layout, draw。
 Litho的渲染步骤则是：Layout, Mount, Draw。
 
@@ -142,8 +136,7 @@ MountSpec所产生的Component，会经历8个生命周期方法，都可以在M
 
 最后附上Litho的类图，作一个参考。整个结构和过程很简单：ComponentLifecycle负责控制生命周期，Component是根据MountSpec和LayoutSpec生成的组件，LayoutState负责控制布局阶段的操作，并将需要挂载的组件提取出来，封装成LayoutOutput给MountState进行挂载操作。挂载后生成MountItems封装需要绘制的drawable，由LithoView持有。
 
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/0f098d05f46ddd07f01cba107db15df6ae475b36)
-
+![类图](/assets/litho2.png)
 
 
 # Feature/Architecture
@@ -184,17 +177,15 @@ Recycler是litho提供的一个组件，对应于RecyclerView。Recycler的展�
 
 当我们在RecyclerBinder上发生数据的操作时（如insertItemAt），以及系统的onMeasure回调到来时，都会触发一次异步线程的布局计算。异步布局的主要工作是将未展现到屏幕的组件的布局信息提前计算好，在后续的measure时，尝试同步布局时可以直接将结果返回。
 
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/085b65003365743a39066eccaa5c6446ff446f8c)
-
+![异步布局](/assets/litho3.png)
 ## 视图平铺
 
 我们知道，很多时候，过深的视图层级会带来性能问题，尤其是滚动列表，视图层级往往是性能的瓶颈。Litho很好地实现了视图的平铺，大大降低了布局层级。
 
 我们可以看下面一个例子，这是一个命名为HeaderComponent的LayoutSpec，我们通过@OnCreateLayout方法，像写ViewGroup一样来定义它。但是打开开发者模式的“显示布局边界”，这里只有一个View，并没有嵌套层级。
 
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/db33dd73d6a3714bab4ca35a924cf1ae42b7f892)
-
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/52f6fbcb8fd5fdfb238e9b650031e1dafb90c1da)
+![视图平铺](/assets/litho4.png)
+![视图平铺](/assets/litho3-1.png)
 
 Litho通过两点来实现这个效果：
 
@@ -210,15 +201,14 @@ Litho通过两点来实现这个效果：
 
 Litho可以把装载component的花费平均分配至每一个UI帧来避免卡顿，并且对开发者来说是透明的。具体来说，使用Litho的增量式挂载（默认是开启的），LithoView将只会挂载与当前可见区域大小相适应的内容并且卸载和回收那些已经看不见了的component。与之相对应的是关闭增量式挂载，这意味着RecyclerView在布局时，会挂载全量的item内容。
 
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/badb62d136ef61a18f321a652352bb1902ef1c34)
-
+![增量挂载](/assets/litho5.png)
 ## 细粒度的回收
 
 RecyclerView提供了一种基于View type概念的回收机制，不同类型的item从不同的pool回收。绝大多数情况下这都能很好的工作，但是对于view类型非常多的列表就不理想了，因为RecyclerView需要不断的为每种类型inflating新的view，导致内存过度开销和滚动性能问题。
 
 在Litho中，所有叶子控件（相当于MountSpec）如Text和Image在底层都是单独回收的。这可以让我们为RecyclerView带来更精细的回收方案。一旦一个组合控件的内部部分移出屏幕，该框架立即让它们可以被adapter中的其它item复用。
 
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/78e88ccf0ba27a3a9b5771a8bacc86a0341b3f91)
+![细粒度回收](/assets/litho6.png)
 
 这让我们更好理解MountSpec的生命周期：onCreateMountContent方法意味着为当前的MountSpec构建一个对应的可以挂载内容的对象，这个对象会直接放到全局的缓存池中以供复用。当这样的MountSpec需要被挂载时，从缓存池中获取，获取不到才会重新创建。mount方法发生在一个MountSpec组件进入屏幕的时候，当它需要被展现时，Litho框架会先从缓存池中取出一个Mount Content对象，再调用onMount挂载内容，再展现。反过来，onMount则发生在一个MountSpec组件移出屏幕的时候，当它不需要展现时，它会立刻调用onUnMount，并返回给缓存池。
 
