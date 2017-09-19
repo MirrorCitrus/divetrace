@@ -109,6 +109,7 @@ Litho中每个组件都是一个`Component<? extends ComponentLifecycle>`的实�
 在我们针对这里的生命周期再进行稍微细致的阐述之前，先了解一下Litho的渲染步骤：
 
 ![Litho渲染步骤](/assets/litho1.png)
+
 Android原生的View的渲染步骤包括三步：measure, layout, draw。
 Litho的渲染步骤则是：Layout, Mount, Draw。
 
@@ -178,6 +179,7 @@ Recycler是litho提供的一个组件，对应于RecyclerView。Recycler的展�
 当我们在RecyclerBinder上发生数据的操作时（如insertItemAt），以及系统的onMeasure回调到来时，都会触发一次异步线程的布局计算。异步布局的主要工作是将未展现到屏幕的组件的布局信息提前计算好，在后续的measure时，尝试同步布局时可以直接将结果返回。
 
 ![异步布局](/assets/litho3.png)
+
 ## 视图平铺
 
 我们知道，很多时候，过深的视图层级会带来性能问题，尤其是滚动列表，视图层级往往是性能的瓶颈。Litho很好地实现了视图的平铺，大大降低了布局层级。
@@ -202,6 +204,7 @@ Litho通过两点来实现这个效果：
 Litho可以把装载component的花费平均分配至每一个UI帧来避免卡顿，并且对开发者来说是透明的。具体来说，使用Litho的增量式挂载（默认是开启的），LithoView将只会挂载与当前可见区域大小相适应的内容并且卸载和回收那些已经看不见了的component。与之相对应的是关闭增量式挂载，这意味着RecyclerView在布局时，会挂载全量的item内容。
 
 ![增量挂载](/assets/litho5.png)
+
 ## 细粒度的回收
 
 RecyclerView提供了一种基于View type概念的回收机制，不同类型的item从不同的pool回收。绝大多数情况下这都能很好的工作，但是对于view类型非常多的列表就不理想了，因为RecyclerView需要不断的为每种类型inflating新的view，导致内存过度开销和滚动性能问题。
