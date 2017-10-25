@@ -25,6 +25,7 @@
 * [miscellaneous](others/README.md)
   * [git备忘](others/git备忘.md)
   * [Lint简明笔记](others/lint.md)
+  * [AspectJ for Android](others/AspectJ.md)
 
 
 
