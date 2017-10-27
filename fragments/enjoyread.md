@@ -2,6 +2,24 @@
 
 记录一些WalkThrough的简单内容和总结。
 
+
+# 17) 模块化、组件化
+
+- [ ] [Android 模块化探索与实践](http://baronzhang.com/blog/Framework/Android-%E6%A8%A1%E5%9D%97%E5%8C%96%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%AE%9E%E8%B7%B5/)
+- [ ] [Android组件化之通信（多模块，多进程）](http://www.jianshu.com/p/1fc5f8a2d703)
+- [x] [Android彻底组件化方案实践](http://www.jianshu.com/p/1b1d77f58e84)
+
+# 16) AspectJ
+
+是一种AOP技术。核心概念是JPoint, Pointcut, Advice。集成到Android需要同时配置主工程和library的gradle，所以需要通过gradle插件的方式简化配置。
+
+#### References
+
+- [x] [看AspectJ在Android中的强势插入](http://blog.csdn.net/eclipsexys/article/details/54425414)
+- [ ] [AOP 之 AspectJ 全面剖析 in Android](http://zhuhf.tech/2017/01/22/AspectJ/)
+- [ ] [GitHub: gradle_plugin_android_aspectjx](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx/blob/master/README-zh.md)
+- [x] [如何使用Android Studio开发Gradle插件](http://blog.csdn.net/sbsujjbcy/article/details/50782830)
+
 # 13) Native崩溃的抓取
 
 #### 1. 现有方案
