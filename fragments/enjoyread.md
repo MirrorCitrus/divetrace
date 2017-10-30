@@ -2,6 +2,48 @@
 
 记录一些WalkThrough的简单内容和总结。
 
+# 18) Epoxy
+
+两种类型的组件：
+
+- `EpoxyModel`：视图模型
+- `EpoxyController`：控制视图如何添加到RecyclerView的Controller
+
+#### ModelView的创建
+
+有如下几种方案创建View的Model：
+- 从自定义View创建Model: 使用`@ModelView`标注在自定义View上，并用`@Prop`注解标注需要接收的参数
+- 从DataBinding创建Model：使用`@EpoxyDataBindingLayouts`来标注
+- 从ViewHolders创建Model: 使用`@EpoxyModelClass`标注Class，使用`@EpoxyAttribute`标注属性，使用`@BindView`标注绑定
+
+#### 在Controller中使用Model
+
+Controller是用于控制不同的Model按照怎样的顺序、怎样的条件展示到RecyclerView上的。每个Model有个`addTo(..)`的方法，标志着把自己添加到对应的Controller中。而Controller有一个`buildModels()`方法，用于声明视图的展示。外部需要刷新RecyclerView时，调用`requestModelBuild`也会触发一次`buildModels()`的运行。
+
+#### Model和Controller的实际使用
+
+```
+MyController controller = new MyController();
+recyclerView.setAdapter(controller);
+// Request a model build whenever your data changes
+controller.requestModelBuild();
+// Or if you are using a TypedEpoxyController
+controller.setData(myData);
+```
+
+简易写法：
+
+```
+epoxyRecyclerView.setControllerAndBuildModels(new MyController());
+// Request a model build on the recyclerview when data changes
+epoxyRecyclerView.requestModelBuild();
+```
+
+
+#### References
+
+- [ ] [Epoxy: Github](https://github.com/airbnb/epoxy)
+- [ ] [Epoxy: Airbnb的安卓视图架构](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/1209/6838.html)
 
 # 17) 模块化、组件化
 
