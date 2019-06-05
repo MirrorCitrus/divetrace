@@ -2,6 +2,7 @@
 
 * [Introduction](SUMMARY.md)
 * [WalkThrough](fragments/enjoyread.md)
+  * [WalkThrough1906](fragments/WalkThrough1906.md)
 * [Deposit](deposit/README.md)
   * [Android系统各种类型的动画总结](deposit/Android系统各种类型的动画总结.md)
   * [如何写一个自己的注解处理器](deposit/如何写一个自己的注解处理器.md)
