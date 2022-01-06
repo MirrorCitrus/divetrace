@@ -1,3 +1,11 @@
+# divetrace 2.0
+* [基础专题：开源框架](https://docs.qq.com/doc/DYWNwd1J4Qm1KYWRF)
+* [进阶专题：组件化](https://docs.qq.com/doc/DYXJhVXRBYktxd0dP)
+* [进阶专题：性能](https://docs.qq.com/doc/DYXJhVFlMbW1ibmZP)
+* [进阶专题：跨平台](https://docs.qq.com/doc/DYUdjb3NZRG1hQk5t)
+* 积累
+  * [bugreport分析](dive2/others/bugreport_analyze.md) 
+
 # divetrace
 
 * [Introduction](SUMMARY.md)
